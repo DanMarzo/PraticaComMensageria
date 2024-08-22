@@ -1,0 +1,50 @@
+version: '3'
+
+networks:
+  micro: 
+    driver: bridge 
+
+services:
+  auth-db:
+    container_name: auth-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - micro
+    ports:
+      - "5432:5432"
+  produto-db:
+    container_name: produto-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: produto-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - micro
+    ports:
+      - "5433:5432"
+  sales-db:
+    container_name: sales-db
+    image: mongo
+    networks:
+      - micro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=1q2w3e4r
+      - MONGO_INITDB_DATABASE=myproject
+    ports:
+      - "27017:27017"
+  sales_rabbit:
+    container_name: sales_rabbit
+    networks:
+      - micro
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 25676:25676
+      - 15672:15672
+      
