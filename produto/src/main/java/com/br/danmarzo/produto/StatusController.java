@@ -13,7 +13,7 @@ public class StatusController {
     public ResponseEntity<HashMap<String, Object>> getApiStatus(){
         var response = new HashMap<String, Object>();
         response.put("service", "ProdutoAPI");
-        response.put("httpstatus", HttpStatus.OK.value());
+        response.put("httpStatus", HttpStatus.OK.value());
         return ResponseEntity.ok(response);
     }
 }
