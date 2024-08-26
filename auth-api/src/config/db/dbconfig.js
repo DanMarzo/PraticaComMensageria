@@ -23,7 +23,6 @@ sequelize
   .catch((err) => {
     console.error("Error connection");
     console.error(err);
-    console.error("--------");
   });
 
 export default sequelize;
