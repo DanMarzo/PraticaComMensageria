@@ -1,14 +1,14 @@
-import UserRepository from "../Infra/repository/UserRepository.js";
-import * as httpStatus from "../Infra/constants/httpStatus.js";
+import UserRepository from "../../Infra/repository/UserRepository.js";
+import * as httpStatus from "../../Infra/constants/httpStatus.js";
+import UserException from "../exceptions/UserException.js";
 
 class UserService {
   async findByEmail(req) {
     try {
       const { email } = req.params;
-      this.validarDadosRequisicao(email);
+      this.validateRequestEmail(email);
       let user = await UserRepository.findByEmail(email);
-      if (!user) {
-      }
+      this.validateUserNotFound(user);
       return {
         status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
         user: {
@@ -25,9 +25,18 @@ class UserService {
     }
   }
 
-  validarDadosRequisicao(email) {
+  validateRequestEmail(email) {
     if (!email) {
-      throw new Error();
+      throw new UserException(
+        httpStatus.BAD_REQUEST,
+        "User email was not found"
+      );
+    }
+  }
+
+  validateUserNotFound(user) {
+    if (!user) {
+      throw new UserException(httpStatus.NOT_FOUND, "User not found");
     }
   }
 }
