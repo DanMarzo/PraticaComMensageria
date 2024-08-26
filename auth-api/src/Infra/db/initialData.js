@@ -1,5 +1,5 @@
 import { hash } from "bcrypt";
-import UserEntity from "../../domain/User.js";
+import UserEntity from "../../domain/UserEntity.js";
 
 async function createInitialData() {
   await UserEntity.sync({ force: true });
