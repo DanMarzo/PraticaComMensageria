@@ -6,6 +6,8 @@ class UserController {
 
     return res.status(user.status).json(user);
   }
+
+  async getAccessToken(){}
 }
 
 export default new UserController();
