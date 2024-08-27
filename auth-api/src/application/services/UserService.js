@@ -42,33 +42,14 @@ class UserService {
       throw new UserException(httpStatus.NOT_FOUND, "User not found");
     }
   }
-
-  async getAccessToken(req) {
-    try {
-      const { email, password } = req.body;
-      validateAccessTokenData(email, password);
-      let user = await UserRepository.findByEmail(email);
-      await this.validatePassword(password, user.password);
-      let authUser = {
-        auth: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          accessToken: accessToken,
-        },
-        status: httpStatus.SUCCESS,
-      };
-      let accessToken = jwt.sign({ ...authUser }, secrets.apiSecret, {
-        expiresIn: "1d",
-      });
-    } catch (error) {
-      return {
-        status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: error.message,
-      };
+  validAccessTokenData(email, password) {
+    if (!email || !password) {
+      throw new UserException(
+        httpStatus.UNAUTHORIZED,
+        "Email and password must be informed"
+      );
     }
   }
-
   async validatePassword(password, hashPassword) {
     let isMatch = await compare(password, hashPassword);
     if (!isMatch) {
@@ -78,13 +59,29 @@ class UserService {
       );
     }
   }
+  async getAccessToken(req) {
+    try {
+      const { email, password } = req.body;
+      this.validAccessTokenData(email, password);
+      let user = await UserRepository.findByEmail(email);
+      await this.validatePassword(password, user.password);
 
-  validateAccessTokenData(email, password) {
-    if (!email || !password) {
-      throw new UserException(
-        httpStatus.UNAUTHORIZED,
-        "Email and password must be informed"
-      );
+      const payload = { id: user.id, email: user.email, name: user.name };
+      let accessToken = jwt.sign({ payload }, secrets.apiSecret, {
+        expiresIn: "1d",
+      });
+      return {
+        status: httpStatus.SUCCESS,
+        data: {
+          ...payload,
+          accessToken: accessToken,
+        },
+      };
+    } catch (error) {
+      return {
+        status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message,
+      };
     }
   }
 }
