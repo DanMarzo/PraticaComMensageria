@@ -1,5 +1,5 @@
-import UserRepository from "../../Infra/repository/UserRepository.js";
-import * as httpStatus from "../../Infra/constants/httpStatus.js";
+import UserRepository from "../../infra/repository/UserRepository.js";
+import * as httpStatus from "../../infra/constants/httpStatus.js";
 import UserException from "../exceptions/UserException.js";
 
 class UserService {

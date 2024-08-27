@@ -1,5 +1,5 @@
 import { INTEGER, STRING } from "sequelize";
-import sequelize from "../config/db/dbconfig.js";
+import sequelize from "../infra/db/dbconfig.js";
 
 const UserEntity = sequelize.define(
   "user",

@@ -4,7 +4,7 @@ class UserController {
   async findByEmail(req, res) {
     let user = await UserService.findByEmail(req);
 
-    return req.status(user.status).json(user);
+    return res.status(user.status).json(user);
   }
 }
 
