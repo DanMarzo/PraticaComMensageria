@@ -50,10 +50,13 @@ class UserService {
       let user = await UserRepository.findByEmail(email);
       await this.validatePassword(password, user.password);
       let authUser = {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        accessToken: accessToken,
+        auth: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          accessToken: accessToken,
+        },
+        status: httpStatus.SUCCESS,
       };
       let accessToken = jwt.sign({ ...authUser }, secrets.apiSecret, {
         expiresIn: "1d",
