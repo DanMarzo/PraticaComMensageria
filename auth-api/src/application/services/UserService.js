@@ -59,21 +59,30 @@ class UserService {
       );
     }
   }
+  validateUser(user) {
+    if (!user) {
+      throw new UserException(
+        httpStatus.UNAUTHORIZED,
+        "User not found!"
+      );
+    }
+  }
+
   async getAccessToken(req) {
     try {
       const { email, password } = req.body;
       this.validAccessTokenData(email, password);
       let user = await UserRepository.findByEmail(email);
+      
       await this.validatePassword(password, user.password);
-
-      const payload = { id: user.id, email: user.email, name: user.name };
-      let accessToken = jwt.sign({ payload }, secrets.apiSecret, {
+      const authUser = { id: user.id, email: user.email, name: user.name };
+      let accessToken = jwt.sign({ authUser }, secrets.apiSecret, {
         expiresIn: "1d",
       });
       return {
         status: httpStatus.SUCCESS,
         data: {
-          ...payload,
+          ...authUser,
           accessToken: accessToken,
         },
       };
