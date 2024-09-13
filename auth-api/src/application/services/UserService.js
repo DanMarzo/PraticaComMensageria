@@ -9,11 +9,13 @@ class UserService {
   async findByEmail(req) {
     try {
       const { email } = req.params;
+      const { authUser } = req;
       this.validateRequestEmail(email);
       let user = await UserRepository.findByEmail(email);
       this.validateUserNotFound(user);
+      this.validateAuthenticatedUser(user, authUser);
       return {
-        status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
+        status: httpStatus.SUCCESS,
         user: {
           id: user.id,
           email: user.email,
@@ -27,7 +29,14 @@ class UserService {
       };
     }
   }
-
+  validateAuthenticatedUser(user, authUser) {
+    if (!authUser || user.id !== authUser.id) {
+      throw new UserException(
+        httpStatus.FORBIDDEN,
+        "You cannot see this user data."
+      );
+    }
+  }
   validateRequestEmail(email) {
     if (!email) {
       throw new UserException(
@@ -61,10 +70,7 @@ class UserService {
   }
   validateUser(user) {
     if (!user) {
-      throw new UserException(
-        httpStatus.UNAUTHORIZED,
-        "User not found!"
-      );
+      throw new UserException(httpStatus.UNAUTHORIZED, "User not found!");
     }
   }
 
@@ -73,7 +79,7 @@ class UserService {
       const { email, password } = req.body;
       this.validAccessTokenData(email, password);
       let user = await UserRepository.findByEmail(email);
-      
+
       await this.validatePassword(password, user.password);
       const authUser = { id: user.id, email: user.email, name: user.name };
       let accessToken = jwt.sign({ authUser }, secrets.apiSecret, {
