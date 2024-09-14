@@ -21,6 +21,14 @@ public class ProductEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "FK_SUPPLIER", nullable = false)
     private SupplierEntity supplier;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_CATEGORY", nullable = false)
     private CategoryEntity category;
+
+    @Column(name = "quantity_available", nullable = false)
+    private Integer quantityAvailable;
 }
