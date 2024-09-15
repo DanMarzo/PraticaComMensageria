@@ -1,4 +1,4 @@
-package com.br.danmarzo.produto.modules.supplier;
+package com.br.danmarzo.produto.modules.supplier.controller;
 
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierRequestDTO;
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierResponseDTO;
