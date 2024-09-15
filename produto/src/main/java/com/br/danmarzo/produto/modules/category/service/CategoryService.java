@@ -25,4 +25,11 @@ public class CategoryService {
             throw new ValidationException("The category description was not informed.");
         }
     }
+
+    public CategoryEntity findById(Integer id){
+        return this
+                .categoryRepository
+                .findById(id)
+                .orElseThrow(() -> new ValidationException("There's no category for the given ID."));
+    }
 }
