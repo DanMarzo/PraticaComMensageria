@@ -1,4 +1,4 @@
-package com.br.danmarzo.produto.modules.produto.model;
+package com.br.danmarzo.produto.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

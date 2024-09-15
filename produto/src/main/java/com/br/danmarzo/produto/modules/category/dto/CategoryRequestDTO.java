@@ -1,4 +1,4 @@
-package com.br.danmarzo.produto.modules.produto.dto;
+package com.br.danmarzo.produto.modules.category.dto;
 
 public class CategoryRequestDTO {
     private  String description;

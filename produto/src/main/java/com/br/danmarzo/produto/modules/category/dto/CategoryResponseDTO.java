@@ -1,6 +1,6 @@
-package com.br.danmarzo.produto.modules.produto.dto;
+package com.br.danmarzo.produto.modules.category.dto;
 
-import com.br.danmarzo.produto.modules.produto.model.CategoryEntity;
+import com.br.danmarzo.produto.domain.CategoryEntity;
 import org.springframework.beans.BeanUtils;
 
 public class CategoryResponseDTO {

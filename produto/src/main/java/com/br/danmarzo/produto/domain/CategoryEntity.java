@@ -1,6 +1,6 @@
-package com.br.danmarzo.produto.modules.produto.model;
+package com.br.danmarzo.produto.domain;
 
-import com.br.danmarzo.produto.modules.produto.dto.CategoryRequestDTO;
+import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

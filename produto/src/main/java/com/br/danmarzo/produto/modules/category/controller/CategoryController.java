@@ -1,8 +1,8 @@
-package com.br.danmarzo.produto.modules.produto.controller;
+package com.br.danmarzo.produto.modules.category.controller;
 
-import com.br.danmarzo.produto.modules.produto.dto.CategoryRequestDTO;
-import com.br.danmarzo.produto.modules.produto.dto.CategoryResponseDTO;
-import com.br.danmarzo.produto.modules.produto.service.CategoryService;
+import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
+import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
+import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

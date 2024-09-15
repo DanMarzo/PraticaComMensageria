@@ -1,10 +1,10 @@
-package com.br.danmarzo.produto.modules.produto.service;
+package com.br.danmarzo.produto.modules.category.service;
 
 import com.br.danmarzo.produto.config.exception.ValidationException;
-import com.br.danmarzo.produto.modules.produto.dto.CategoryRequestDTO;
-import com.br.danmarzo.produto.modules.produto.dto.CategoryResponseDTO;
-import com.br.danmarzo.produto.modules.produto.model.CategoryEntity;
-import com.br.danmarzo.produto.modules.produto.repository.CategoryRepository;
+import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
+import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
+import com.br.danmarzo.produto.domain.CategoryEntity;
+import com.br.danmarzo.produto.modules.category.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import static org.springframework.util.ObjectUtils.isEmpty;
