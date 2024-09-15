@@ -1,9 +1,11 @@
 package com.br.danmarzo.produto.domain;
 
+import com.br.danmarzo.produto.modules.supplier.dto.SupplierRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 //Cria GetterSetters
 @Data
@@ -20,4 +22,10 @@ public class SupplierEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    public static SupplierEntity of(SupplierRequestDTO request) {
+        var response = new SupplierEntity();
+        BeanUtils.copyProperties(request, response);
+        return response;
+    }
 }

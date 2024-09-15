@@ -1,8 +1,10 @@
 package com.br.danmarzo.produto.modules.category.dto;
 
 import com.br.danmarzo.produto.domain.CategoryEntity;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+@Data
 public class CategoryResponseDTO {
     private Integer id;
     private String description;
@@ -13,19 +15,4 @@ public class CategoryResponseDTO {
         return response;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

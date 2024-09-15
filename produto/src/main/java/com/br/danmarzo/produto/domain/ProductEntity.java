@@ -1,9 +1,11 @@
 package com.br.danmarzo.produto.domain;
 
+import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 //Cria GetterSetters
 @Data
@@ -31,4 +33,10 @@ public class ProductEntity {
 
     @Column(name = "quantity_available", nullable = false)
     private Integer quantityAvailable;
+
+    public static ProductEntity of(ProductRequestDTO request){
+        var response = new ProductEntity();
+        BeanUtils.copyProperties(request, response);
+        return response;
+    }
 }
