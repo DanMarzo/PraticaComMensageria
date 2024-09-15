@@ -1,7 +1,6 @@
 package com.br.danmarzo.produto.modules.supplier.service;
 
 import com.br.danmarzo.produto.config.exception.ValidationException;
-import com.br.danmarzo.produto.domain.CategoryEntity;
 import com.br.danmarzo.produto.domain.SupplierEntity;
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierRequestDTO;
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierResponseDTO;
@@ -18,14 +17,14 @@ public class SupplierService {
     private SupplierRepository supplierRepository;
 
     public SupplierResponseDTO save(SupplierRequestDTO request){
-        this.validateCategoryNameInformed(request);
+        this.validateSupplierNameInformed(request);
         var category = this.supplierRepository.save(SupplierEntity.of(request));
         return SupplierResponseDTO.of(category);
     }
 
-    public void validateCategoryNameInformed(SupplierRequestDTO requestDTO){
+    public void validateSupplierNameInformed(SupplierRequestDTO requestDTO){
         if (isEmpty(requestDTO.getName())){
-            throw new ValidationException("The category description was not informed.");
+            throw new ValidationException("The supplier name was not informed.");
         }
     }
     public SupplierEntity findById(Integer id){
