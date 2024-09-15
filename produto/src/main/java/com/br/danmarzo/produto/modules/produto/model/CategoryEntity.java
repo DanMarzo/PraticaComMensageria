@@ -1,9 +1,11 @@
 package com.br.danmarzo.produto.modules.produto.model;
 
+import com.br.danmarzo.produto.modules.produto.dto.CategoryRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 //Cria GetterSetters
 @Data
@@ -22,4 +24,9 @@ public class CategoryEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    public  static  CategoryEntity of(CategoryRequestDTO request){
+        var category = new CategoryEntity();
+        BeanUtils.copyProperties(request, category);
+        return  category;
+    }
 }
