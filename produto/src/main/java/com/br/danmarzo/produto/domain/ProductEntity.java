@@ -3,10 +3,14 @@ package com.br.danmarzo.produto.domain;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+
+@Builder
 //Cria GetterSetters
 @Data
 //Construtor Vazio
@@ -34,9 +38,21 @@ public class ProductEntity {
     @Column(name = "quantity_available", nullable = false)
     private Integer quantityAvailable;
 
-    public static ProductEntity of(ProductRequestDTO request){
-        var response = new ProductEntity();
-        BeanUtils.copyProperties(request, response);
-        return response;
+    @Column(name = "create_at", nullable = false, updatable = false)
+    private LocalDateTime createAt;
+
+    @PrePersist
+    public void prePersist(){
+        this.createAt = LocalDateTime.now();
+    }
+
+    public static ProductEntity of(ProductRequestDTO request, SupplierEntity supplier, CategoryEntity category){
+        return ProductEntity
+                .builder()
+                .name(request.getName())
+                .quantityAvailable(request.getQuantityAvailable())
+                .category(category)
+                .supplier(supplier)
+                .build();
     }
 }
