@@ -4,6 +4,8 @@ import com.br.danmarzo.produto.domain.CategoryEntity;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 @Data
 public class CategoryResponseDTO {
     private Integer id;
@@ -14,5 +16,4 @@ public class CategoryResponseDTO {
         BeanUtils.copyProperties(category, response);
         return response;
     }
-
 }

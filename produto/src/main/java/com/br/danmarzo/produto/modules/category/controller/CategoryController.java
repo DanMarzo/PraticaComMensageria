@@ -4,19 +4,32 @@ import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
 import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-@RestController()
-@RequestMapping("/api/category")
+@RestController
+@RequestMapping("api/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping(name = "registrar")
+    @PostMapping("registrar")
     public CategoryResponseDTO save(@RequestBody() CategoryRequestDTO request){
         return this.categoryService.save(request);
+    }
+
+    @GetMapping("findAll")
+    public List<CategoryResponseDTO> findAll(){
+        return this.categoryService.findAll();
+    }
+    @GetMapping("findById")
+    public CategoryResponseDTO findById(@RequestParam() Integer id){
+        return this.categoryService.findByIdResponse(id);
+    }
+
+    @GetMapping("description/{description}")
+    public List<CategoryResponseDTO> findByDescription(@RequestParam() String description){
+        return this.categoryService.findByDescription(description);
     }
 }
