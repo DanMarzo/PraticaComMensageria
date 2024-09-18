@@ -6,9 +6,13 @@ import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.repository.ProductRepository;
+import com.br.danmarzo.produto.modules.supplier.dto.SupplierResponseDTO;
 import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -22,6 +26,40 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
+    public List<ProductResponseDTO> findByName(String name){
+        if (isEmpty(name)){
+            throw new ValidationException("The product name must be informed");
+        }
+        return this
+                .productRepository
+                .findByNameIgnoreCaseContaining(name)
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductResponseDTO> findAll(){
+        return this
+                .productRepository
+                .findAll()
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    public ProductResponseDTO findByIdResponse(Integer id){
+        return ProductResponseDTO.of(this.findById(id));
+    }
+
+    public ProductEntity findById(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("Id must be informed");
+        }
+        return this
+                .productRepository
+                .findById(id)
+                .orElseThrow(() -> new ValidationException("There's no product for the given ID."));
+    }
 
     public ProductResponseDTO save(ProductRequestDTO request){
         this.validateCategoryAndSupplierId(request);
@@ -48,4 +86,5 @@ public class ProductService {
             throw new ValidationException("The supplier id was not informed.");
         }
     }
+
 }

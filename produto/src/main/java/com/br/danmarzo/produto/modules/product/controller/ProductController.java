@@ -4,10 +4,9 @@ import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/product")
@@ -20,4 +19,18 @@ public class ProductController {
     public ProductResponseDTO save(@RequestBody ProductRequestDTO request){
         return this.productService.save(request);
     }
+
+    @GetMapping("findAll")
+    public List<ProductResponseDTO> findAll(){
+        return this.productService.findAll();
+    }
+    @GetMapping("findByName")
+    public List<ProductResponseDTO> findByName(@RequestParam() String name){
+        return this.productService.findByName(name);
+    }
+    @GetMapping("findById")
+    public ProductResponseDTO findById(@RequestParam() Integer id){
+        return this.productService.findByIdResponse(id);
+    }
+
 }
