@@ -15,10 +15,11 @@ import org.springframework.beans.BeanUtils;
 @AllArgsConstructor
 @Entity
 @Table(name = "CATEGORIES")
+@SequenceGenerator(allocationSize = 1, initialValue = 1, name = "categories_seq_gen", sequenceName = "categories_seq")
 public class CategoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categories_seq_gen")
     private Integer id;
 
     @Column(name = "description", nullable = false)

@@ -19,9 +19,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "PRODUCTS")
+@SequenceGenerator(allocationSize = 1, initialValue = 1, name = "products_seq_gen", sequenceName = "products_seq")
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_seq_gen")
     private Integer id;
 
     @Column(name = "name", nullable = false)
