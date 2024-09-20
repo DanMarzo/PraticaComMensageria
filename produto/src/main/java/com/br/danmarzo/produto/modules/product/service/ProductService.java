@@ -110,4 +110,10 @@ public class ProductService {
                 .map(ProductResponseDTO::of)
                 .collect(Collectors.toList());
     }
+    public Boolean existsByCategoryId(Integer id){
+        return this.productRepository.existsByCategoryId(id);
+    }
+    public Boolean existsBySupplierId(Integer id){
+        return this.productRepository.existsBySupplierId(id);
+    }
 }

@@ -1,10 +1,12 @@
 package com.br.danmarzo.produto.modules.category.service;
 
+import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.config.exception.ValidationException;
 import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
 import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
 import com.br.danmarzo.produto.domain.CategoryEntity;
 import com.br.danmarzo.produto.modules.category.repository.CategoryRepository;
+import com.br.danmarzo.produto.modules.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductService productService;
 
     public List<CategoryResponseDTO> findByDescription(String description){
         if (isEmpty(description)){
@@ -56,9 +60,7 @@ public class CategoryService {
     }
 
     public CategoryEntity findById(Integer id){
-        if (isEmpty(id)){
-            throw new ValidationException("The category id must be informed");
-        }
+        this.validateInformedId(id);
         return this
                 .categoryRepository
                 .findById(id)
@@ -67,5 +69,19 @@ public class CategoryService {
 
     public Boolean existsByCategoryId(Integer id){
         return this.categoryRepository.existsByCategoryId(id);
+    }
+    public SuccessResponse delete(Integer id){
+        this.validateInformedId(id);
+        var existsProductsUsing = this.productService.existsByCategoryId(id);
+        if (existsProductsUsing) {
+            throw new ValidationException("You cannot delete this category because it's already defined by a product.");
+        }
+        this.categoryRepository.deleteById(id);
+        return SuccessResponse.create("The category was deleted.");
+    }
+    public void validateInformedId(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("The category id must be informed");
+        }
     }
 }
