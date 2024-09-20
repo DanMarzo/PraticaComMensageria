@@ -87,4 +87,27 @@ public class ProductService {
         }
     }
 
+
+    public List<ProductResponseDTO> findByCategoryId(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("Id category must be informed.");
+        }
+        return this
+                .productRepository
+                .findByCategoryId(id)
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
+    public List<ProductResponseDTO> findBySupplierId(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("Id supplier must be informed.");
+        }
+        return this
+                .productRepository
+                .findBySupplierId(id)
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
 }

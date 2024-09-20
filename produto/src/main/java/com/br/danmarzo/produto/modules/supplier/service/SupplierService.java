@@ -64,4 +64,8 @@ public class SupplierService {
                 .findById(id)
                 .orElseThrow(() -> new ValidationException("There's no supplier for the given ID."));
     }
+
+    public Boolean existsBySupplierId(Integer id){
+        return this.supplierRepository.existsBySupplierId(id);
+    }
 }

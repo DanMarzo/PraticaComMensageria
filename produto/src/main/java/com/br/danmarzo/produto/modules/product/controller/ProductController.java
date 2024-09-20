@@ -32,5 +32,12 @@ public class ProductController {
     public ProductResponseDTO findById(@RequestParam() Integer id){
         return this.productService.findByIdResponse(id);
     }
-
+    @GetMapping("findBySupplierId")
+    public List<ProductResponseDTO> findBySupplierId(@RequestParam() Integer id){
+        return this.productService.findBySupplierId(id);
+    }
+    @GetMapping("findByCategoryId")
+    public List<ProductResponseDTO> findByCategoryId(@RequestParam() Integer id){
+        return this.productService.findByCategoryId(id);
+    }
 }

@@ -64,4 +64,8 @@ public class CategoryService {
                 .findById(id)
                 .orElseThrow(() -> new ValidationException("There's no category for the given ID."));
     }
+
+    public Boolean existsByCategoryId(Integer id){
+        return this.categoryRepository.existsByCategoryId(id);
+    }
 }
