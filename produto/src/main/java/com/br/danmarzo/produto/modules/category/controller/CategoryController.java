@@ -28,7 +28,7 @@ public class CategoryController {
         return this.categoryService.findByIdResponse(id);
     }
 
-    @GetMapping("description/{description}")
+    @GetMapping("description")
     public List<CategoryResponseDTO> findByDescription(@RequestParam() String description){
         return this.categoryService.findByDescription(description);
     }
