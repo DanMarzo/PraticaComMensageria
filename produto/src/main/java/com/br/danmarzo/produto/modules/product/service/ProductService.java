@@ -1,5 +1,6 @@
 package com.br.danmarzo.produto.modules.product.service;
 
+import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.config.exception.ValidationException;
 import com.br.danmarzo.produto.domain.ProductEntity;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
@@ -70,6 +71,49 @@ public class ProductService {
         return ProductResponseDTO.of(product);
     }
 
+    public List<ProductResponseDTO> findByCategoryId(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("Id category must be informed.");
+        }
+        return this
+                .productRepository
+                .findByCategoryId(id)
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductResponseDTO> findBySupplierId(Integer id){
+        if(isEmpty(id)){
+            throw new ValidationException("Id supplier must be informed.");
+        }
+        return this
+                .productRepository
+                .findBySupplierId(id)
+                .stream()
+                .map(ProductResponseDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    public Boolean existsByCategoryId(Integer id){
+        return this.productRepository.existsByCategoryId(id);
+    }
+
+    public Boolean existsBySupplierId(Integer id){
+        return this.productRepository.existsBySupplierId(id);
+    }
+
+    public SuccessResponse delete(Integer id){
+        this.validateProductIdInformed(id);
+        this.productRepository.deleteById(id);
+        return SuccessResponse.create("The product was deleted.");
+    }
+
+    private void validateProductIdInformed(Integer id){
+        if (isEmpty(id)){
+            throw new ValidationException("Product id must be informed.");
+        }
+    }
     private void validateProductDataInformed(ProductRequestDTO request) {
         if (isEmpty(request.getName())){
             throw new ValidationException("The product name was not informed.");
@@ -87,33 +131,4 @@ public class ProductService {
         }
     }
 
-
-    public List<ProductResponseDTO> findByCategoryId(Integer id){
-        if(isEmpty(id)){
-            throw new ValidationException("Id category must be informed.");
-        }
-        return this
-                .productRepository
-                .findByCategoryId(id)
-                .stream()
-                .map(ProductResponseDTO::of)
-                .collect(Collectors.toList());
-    }
-    public List<ProductResponseDTO> findBySupplierId(Integer id){
-        if(isEmpty(id)){
-            throw new ValidationException("Id supplier must be informed.");
-        }
-        return this
-                .productRepository
-                .findBySupplierId(id)
-                .stream()
-                .map(ProductResponseDTO::of)
-                .collect(Collectors.toList());
-    }
-    public Boolean existsByCategoryId(Integer id){
-        return this.productRepository.existsByCategoryId(id);
-    }
-    public Boolean existsBySupplierId(Integer id){
-        return this.productRepository.existsBySupplierId(id);
-    }
 }

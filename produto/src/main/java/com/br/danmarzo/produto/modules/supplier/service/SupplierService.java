@@ -70,6 +70,7 @@ public class SupplierService {
     public Boolean existsBySupplierId(Integer id){
         return this.supplierRepository.existsBySupplierId(id);
     }
+
     public SuccessResponse delete(Integer id){
         this.validateInformedId(id);
         var existsProductsUsing = this.productService.existsBySupplierId(id);
@@ -79,6 +80,7 @@ public class SupplierService {
         this.supplierRepository.deleteById(id);
         return SuccessResponse.create("The supplier was deleted.");
     }
+
     public void validateInformedId(Integer id){
         if(isEmpty(id)){
             throw new ValidationException("ID was not provided");

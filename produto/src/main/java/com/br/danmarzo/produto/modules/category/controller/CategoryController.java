@@ -1,5 +1,6 @@
 package com.br.danmarzo.produto.modules.category.controller;
 
+import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
 import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
@@ -31,5 +32,10 @@ public class CategoryController {
     @GetMapping("description")
     public List<CategoryResponseDTO> findByDescription(@RequestParam() String description){
         return this.categoryService.findByDescription(description);
+    }
+
+    @DeleteMapping("delete")
+    public SuccessResponse delete(@RequestParam() Integer id){
+        return this.categoryService.delete(id);
     }
 }

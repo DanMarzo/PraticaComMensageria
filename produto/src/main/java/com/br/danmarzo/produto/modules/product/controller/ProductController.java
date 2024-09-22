@@ -1,5 +1,6 @@
 package com.br.danmarzo.produto.modules.product.controller;
 
+import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.service.ProductService;
@@ -39,5 +40,10 @@ public class ProductController {
     @GetMapping("findByCategoryId")
     public List<ProductResponseDTO> findByCategoryId(@RequestParam() Integer id){
         return this.productService.findByCategoryId(id);
+    }
+
+    @DeleteMapping("delete")
+    public SuccessResponse delete(@RequestParam() Integer id){
+        return this.productService.delete(id);
     }
 }

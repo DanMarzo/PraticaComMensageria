@@ -1,5 +1,6 @@
 package com.br.danmarzo.produto.modules.supplier.controller;
 
+import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierRequestDTO;
 import com.br.danmarzo.produto.modules.supplier.dto.SupplierResponseDTO;
 import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
@@ -30,5 +31,9 @@ public class SupplierController {
     @GetMapping("findById")
     public SupplierResponseDTO findById(@RequestParam() Integer id){
         return this.supplierService.findByIdResponse(id);
+    }
+    @DeleteMapping("delete")
+    public SuccessResponse delete(@RequestParam() Integer id){
+        return this.supplierService.delete(id);
     }
 }
