@@ -53,10 +53,13 @@ public class CategoryService {
         return CategoryResponseDTO.of(category);
     }
 
-    public void validateCategoryNameInformed(CategoryRequestDTO requestDTO){
-        if (isEmpty(requestDTO.getDescription())){
-            throw new ValidationException("The category description was not informed.");
-        }
+    public CategoryResponseDTO update(CategoryRequestDTO request, Integer id){
+        this.validateInformedId(id);
+        this.validateCategoryNameInformed(request);
+        var category = CategoryEntity.of(request);
+        category.setId(id);
+        var categoryUpdated = this.categoryRepository.save( category);
+        return CategoryResponseDTO.of(categoryUpdated);
     }
 
     public CategoryEntity findById(Integer id){
@@ -70,6 +73,7 @@ public class CategoryService {
     public Boolean existsByCategoryId(Integer id){
         return this.categoryRepository.existsByCategoryId(id);
     }
+
     public SuccessResponse delete(Integer id){
         this.validateInformedId(id);
         var existsProductsUsing = this.productService.existsByCategoryId(id);
@@ -79,9 +83,16 @@ public class CategoryService {
         this.categoryRepository.deleteById(id);
         return SuccessResponse.create("The category was deleted.");
     }
-    public void validateInformedId(Integer id){
+
+    private void validateInformedId(Integer id){
         if(isEmpty(id)){
             throw new ValidationException("The category id must be informed");
+        }
+    }
+
+    private void validateCategoryNameInformed(CategoryRequestDTO requestDTO){
+        if (isEmpty(requestDTO.getDescription())){
+            throw new ValidationException("The category description was not informed.");
         }
     }
 }

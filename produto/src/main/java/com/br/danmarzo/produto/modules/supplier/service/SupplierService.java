@@ -59,6 +59,7 @@ public class SupplierService {
             throw new ValidationException("The supplier name was not informed.");
         }
     }
+
     public SupplierEntity findById(Integer id){
         this.validateInformedId(id);
         return this
@@ -81,7 +82,16 @@ public class SupplierService {
         return SuccessResponse.create("The supplier was deleted.");
     }
 
-    public void validateInformedId(Integer id){
+    public SupplierResponseDTO update(SupplierRequestDTO request, Integer id){
+        this.validateSupplierNameInformed(request);
+        this.validateInformedId(id);
+        var supplier = SupplierEntity.of(request);
+        supplier.setId(id);
+        var supplierUpdated = this.supplierRepository.save(supplier);
+        return SupplierResponseDTO.of(supplierUpdated);
+    }
+
+    private void validateInformedId(Integer id){
         if(isEmpty(id)){
             throw new ValidationException("ID was not provided");
         }
