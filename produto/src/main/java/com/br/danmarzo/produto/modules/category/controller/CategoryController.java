@@ -38,4 +38,9 @@ public class CategoryController {
     public SuccessResponse delete(@RequestParam() Integer id){
         return this.categoryService.delete(id);
     }
+
+    @PutMapping("update")
+    public CategoryResponseDTO update(@RequestParam() Integer id, @RequestBody() CategoryRequestDTO request){
+        return this.categoryService.update(request, id);
+    }
 }

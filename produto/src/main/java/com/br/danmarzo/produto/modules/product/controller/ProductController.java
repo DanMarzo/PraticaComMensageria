@@ -20,6 +20,10 @@ public class ProductController {
     public ProductResponseDTO save(@RequestBody ProductRequestDTO request){
         return this.productService.save(request);
     }
+    @PutMapping("update")
+    public ProductResponseDTO save(@RequestParam() Integer id, @RequestBody ProductRequestDTO request){
+        return this.productService.update(request, id);
+    }
 
     @GetMapping("findAll")
     public List<ProductResponseDTO> findAll(){

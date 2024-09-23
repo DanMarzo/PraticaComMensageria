@@ -36,4 +36,8 @@ public class SupplierController {
     public SuccessResponse delete(@RequestParam() Integer id){
         return this.supplierService.delete(id);
     }
+    @PutMapping("update")
+    public SupplierResponseDTO update(@RequestParam() Integer id,@RequestBody() SupplierRequestDTO request ){
+        return this.supplierService.update(request, id);
+    }
 }
