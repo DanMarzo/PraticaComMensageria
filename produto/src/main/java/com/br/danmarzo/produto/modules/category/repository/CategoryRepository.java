@@ -8,5 +8,5 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
     //A Consulta é montada com base na forma como e declarada o nome do metodo
     List<CategoryEntity> findByDescriptionIgnoreCaseContaining(String description);
-    Boolean existsByCategoryId(Integer id);
+    boolean existsById(Integer id);
 }

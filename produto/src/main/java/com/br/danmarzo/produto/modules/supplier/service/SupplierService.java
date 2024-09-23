@@ -69,7 +69,7 @@ public class SupplierService {
     }
 
     public Boolean existsBySupplierId(Integer id){
-        return this.supplierRepository.existsBySupplierId(id);
+        return this.supplierRepository.existsById(id);
     }
 
     public SuccessResponse delete(Integer id){

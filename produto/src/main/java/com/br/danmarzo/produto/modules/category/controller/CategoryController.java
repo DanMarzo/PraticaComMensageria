@@ -5,7 +5,6 @@ import com.br.danmarzo.produto.modules.category.dto.CategoryRequestDTO;
 import com.br.danmarzo.produto.modules.category.dto.CategoryResponseDTO;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

@@ -71,7 +71,7 @@ public class CategoryService {
     }
 
     public Boolean existsByCategoryId(Integer id){
-        return this.categoryRepository.existsByCategoryId(id);
+        return this.categoryRepository.existsById(id);
     }
 
     public SuccessResponse delete(Integer id){

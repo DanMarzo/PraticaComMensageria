@@ -7,7 +7,6 @@ import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.repository.ProductRepository;
-import com.br.danmarzo.produto.modules.supplier.dto.SupplierResponseDTO;
 import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,7 +81,6 @@ public class ProductService {
         this.productRepository.save(product);
         return ProductResponseDTO.of(product);
     }
-
 
     public List<ProductResponseDTO> findByCategoryId(Integer id){
         if(isEmpty(id)){

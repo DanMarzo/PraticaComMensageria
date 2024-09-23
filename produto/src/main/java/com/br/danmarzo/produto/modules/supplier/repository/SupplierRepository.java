@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SupplierRepository extends JpaRepository<SupplierEntity, Integer> {
     List<SupplierEntity> findByNameIgnoreCaseContaining(String name);
-    Boolean existsBySupplierId(Integer id);
+    boolean existsById(Integer id);
 }
