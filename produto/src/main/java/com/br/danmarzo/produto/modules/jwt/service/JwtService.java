@@ -15,17 +15,17 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public class JwtService {
 
-    private static final String BEARER = "Bearer";
+    private static final String BEARER = "Bearer ";
 
     @Value("${app-config.secrets.api-secret}")
     private String apiSecret;
 
     public void validateAuthorization(String token){
+        var accessToken = this.extractToken(token);
         try{
-            var accessToken = this.extractToken(token);
             var claims= Jwts
                     .parser()
-                    .verifyWith(Keys.hmacShaKeyFor(apiSecret.getBytes()))
+                    .verifyWith(Keys.hmacShaKeyFor(this.apiSecret.getBytes()))
                     .build()
                     .parseSignedClaims(accessToken)
                     .getPayload();
