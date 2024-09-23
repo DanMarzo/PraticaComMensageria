@@ -87,8 +87,8 @@ public class SupplierService {
         this.validateInformedId(id);
         var supplier = SupplierEntity.of(request);
         supplier.setId(id);
-        var supplierUpdated = this.supplierRepository.save(supplier);
-        return SupplierResponseDTO.of(supplierUpdated);
+        this.supplierRepository.save(supplier);
+        return SupplierResponseDTO.of(supplier);
     }
 
     private void validateInformedId(Integer id){

@@ -71,6 +71,19 @@ public class ProductService {
         return ProductResponseDTO.of(product);
     }
 
+    public ProductResponseDTO update(ProductRequestDTO request, Integer id){
+        this.validateCategoryAndSupplierId(request);
+        this.validateProductDataInformed(request);
+
+        var category = this.categoryService.findById(request.getCategoryId());
+        var supplier = this.supplierService.findById(request.getSupplierId());
+        var product =  ProductEntity.of(request, supplier, category);
+        product.setId(id);
+        this.productRepository.save(product);
+        return ProductResponseDTO.of(product);
+    }
+
+
     public List<ProductResponseDTO> findByCategoryId(Integer id){
         if(isEmpty(id)){
             throw new ValidationException("Id category must be informed.");

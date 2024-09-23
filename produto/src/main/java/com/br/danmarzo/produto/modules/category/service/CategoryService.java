@@ -58,8 +58,8 @@ public class CategoryService {
         this.validateCategoryNameInformed(request);
         var category = CategoryEntity.of(request);
         category.setId(id);
-        var categoryUpdated = this.categoryRepository.save( category);
-        return CategoryResponseDTO.of(categoryUpdated);
+        this.categoryRepository.save( category);
+        return CategoryResponseDTO.of(category);
     }
 
     public CategoryEntity findById(Integer id){
