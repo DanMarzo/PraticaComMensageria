@@ -8,7 +8,11 @@ import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductStockDTO;
 import com.br.danmarzo.produto.modules.product.repository.ProductRepository;
+import com.br.danmarzo.produto.modules.sales.dto.SalesConfirmationDTO;
+import com.br.danmarzo.produto.modules.sales.enums.SalesStatusEnum;
+import com.br.danmarzo.produto.modules.sales.rabbitmq.SalesConfirmationSender;
 import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+@Slf4j
 @Service
 public class ProductService {
 
@@ -26,6 +31,8 @@ public class ProductService {
     private SupplierService supplierService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private SalesConfirmationSender salesConfirmationSender;
 
     public List<ProductResponseDTO> findByName(String name){
         if (isEmpty(name)){
@@ -122,7 +129,45 @@ public class ProductService {
     }
 
     public void updateProductStock(ProductStockDTO product){
+        try{
+            this.validateStockUpdateData(product);
+            product
+                    .getProducts()
+                    .forEach(prod -> {
+                        var productEntity = this.findById(prod.getProductId());
+                        if(prod.getQuantity() > productEntity.getQuantityAvailable() ){
+                            throw new ValidationException("The product stock can`t be update");
+                        }
+                        productEntity.updateStock(prod.getQuantity());
+                        this.productRepository.save(productEntity);
+                    });
+            log.info("Message approved");
+            var approvedSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.APPROVED);
+            this.salesConfirmationSender
+                    .sendSalesConfirmationMessage(approvedSend);
+        }
+        catch (Exception e){
+            log.error("Error while trying to update stock for message with error.");
+            var rejectSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.REJECT);
+            this.salesConfirmationSender
+                    .sendSalesConfirmationMessage(rejectSend);
+        }
+    }
 
+    private void validateStockUpdateData(ProductStockDTO product) {
+        if(isEmpty(product)||isEmpty(product.getSalesId())){
+            throw new ValidationException("The product data and the sales id must be informed.");
+        }
+        if(isEmpty(product)||isEmpty(product.getProducts())){
+            throw new ValidationException("The sales products must be informed.");
+        }
+        product
+                .getProducts()
+                .forEach(salesPro->{
+                    if(isEmpty(salesPro.getQuantity()) || isEmpty(salesPro.getProductId())){
+                        throw new ValidationException("The product id and the quantity must be informed.");
+                    }
+                });
     }
 
     private void validateProductIdInformed(Integer id){

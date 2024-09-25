@@ -47,6 +47,11 @@ public class ProductEntity {
         this.createAt = LocalDateTime.now();
     }
 
+    public void updateStock(Integer quantity){
+        this.quantityAvailable = this.quantityAvailable - quantity;
+    }
+
+
     public static ProductEntity of(ProductRequestDTO request, SupplierEntity supplier, CategoryEntity category){
         return ProductEntity
                 .builder()
