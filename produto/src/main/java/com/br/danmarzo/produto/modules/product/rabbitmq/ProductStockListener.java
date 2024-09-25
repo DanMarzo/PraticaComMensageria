@@ -2,11 +2,15 @@ package com.br.danmarzo.produto.modules.product.rabbitmq;
 
 import com.br.danmarzo.produto.modules.product.dto.ProductStockDTO;
 import com.br.danmarzo.produto.modules.product.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ProductStockListener {
 
@@ -14,8 +18,9 @@ public class ProductStockListener {
 
     //Menino que vai ouvir
     @RabbitListener(queues = "${app-config.rabbit.queue.product-stock}" )
-    public void receiveProductStock(@Payload ProductStockDTO product){
-        System.out.println("receive product stock");
+    public void receiveProductStock(ProductStockDTO product) throws JsonProcessingException {
+        log.info("receive product stock");
+        log.info(new ObjectMapper().writeValueAsString(product));
         this.productService.updateProductStock(product);
     }
 }

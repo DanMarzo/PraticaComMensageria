@@ -44,4 +44,4 @@ app-config:
       sales-confirmation: sales-confirmation-update.routingKey
     queue:
       product-stock: product-stock-update.queue
-      sales-confirmation: sales-confirmation-update-queue
+      sales-confirmation: sales-confirmation-update.queue
