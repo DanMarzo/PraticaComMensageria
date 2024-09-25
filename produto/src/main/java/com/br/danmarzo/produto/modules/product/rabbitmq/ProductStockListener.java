@@ -15,7 +15,7 @@ public class ProductStockListener {
     //Menino que vai ouvir
     @RabbitListener(queues = "${app-config.rabbit.queue.product-stock}" )
     public void receiveProductStock(@Payload ProductStockDTO product){
-        System.out.println("aaa");
-    //this.productService.updateProductStock(product);
+        System.out.println("receive product stock");
+        this.productService.updateProductStock(product);
     }
 }
