@@ -6,6 +6,7 @@ import com.br.danmarzo.produto.domain.ProductEntity;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
+import com.br.danmarzo.produto.modules.product.dto.ProductStockDTO;
 import com.br.danmarzo.produto.modules.product.repository.ProductRepository;
 import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,10 @@ public class ProductService {
         this.validateProductIdInformed(id);
         this.productRepository.deleteById(id);
         return SuccessResponse.create("The product was deleted.");
+    }
+
+    public void updateProductStock(ProductStockDTO product){
+
     }
 
     private void validateProductIdInformed(Integer id){

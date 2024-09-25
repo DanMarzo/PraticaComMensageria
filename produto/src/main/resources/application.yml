@@ -4,6 +4,9 @@ server:
 spring:
   main:
     allow-circular-references: true
+    #Permite um Bean de um servico interno do proprio Spring, pois vamos usar bean do spring
+    #pesquisar
+    allow-bean-definition-overriding: true
   application:
     name: ProductAPI
   datasource:
@@ -24,7 +27,21 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:localhost}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USER:guest}
+    password: ${RABBIT_MQ_PASSWORD:guest}
 
 app-config:
   secrets:
     api-secret: ${API_SECRET:YmY3ZWYwNDQtODdlMy00NWIwLThjYzktOGYwYTcyOTQwOGRjX2Rhbm1hcnpvXzE0NWY4NTg4LTA1MWMtNGZmMC04ZjhjLTc2OGNmMDU1NmMyNw==}
+
+  rabbit:
+    exchange: product.topic
+    routingKey:
+      product-stock: product-stock-update.routingKey
+      sales-confirmation: sales-confirmation-update.routingKey
+    queue:
+      product-stock: product-stock-update.queue
+      sales-confirmation: sales-confirmation-update-queue
