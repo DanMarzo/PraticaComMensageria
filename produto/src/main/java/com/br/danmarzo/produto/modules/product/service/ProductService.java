@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,10 +129,13 @@ public class ProductService {
         this.productRepository.deleteById(id);
         return SuccessResponse.create("The product was deleted.");
     }
+    @Transactional
 
     public void updateProductStock(ProductStockDTO product){
         try{
             this.validateStockUpdateData(product);
+            var productsUpdate = new ArrayList<ProductEntity>();
+
             product
                     .getProducts()
                     .forEach(prod -> {
@@ -140,8 +144,12 @@ public class ProductService {
                             throw new ValidationException("The product stock can`t be update");
                         }
                         productEntity.updateStock(prod.getQuantity());
-                        this.productRepository.save(productEntity);
+                        productsUpdate.add(productEntity);
                     });
+            if(isEmpty(productsUpdate)){
+                throw new ValidationException("Lista produtos invalida");
+            }
+            this.productRepository.saveAll(productsUpdate);
             log.info("Message approved");
             var approvedSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.APPROVED);
             this.salesConfirmationSender
@@ -155,7 +163,6 @@ public class ProductService {
         }
     }
 
-    @Transactional
     private void validateStockUpdateData(ProductStockDTO product) {
         if(isEmpty(product)||isEmpty(product.getSalesId())){
             throw new ValidationException("The product data and the sales id must be informed.");
