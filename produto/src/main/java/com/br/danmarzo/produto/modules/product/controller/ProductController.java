@@ -50,4 +50,7 @@ public class ProductController {
     public SuccessResponse delete(@RequestParam() Integer id){
         return this.productService.delete(id);
     }
+
+    @GetMapping("{productId}/sales")
+    public
 }
