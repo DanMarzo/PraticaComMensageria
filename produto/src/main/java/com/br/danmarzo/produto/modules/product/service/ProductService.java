@@ -15,6 +15,7 @@ import com.br.danmarzo.produto.modules.supplier.service.SupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -154,6 +155,7 @@ public class ProductService {
         }
     }
 
+    @Transactional
     private void validateStockUpdateData(ProductStockDTO product) {
         if(isEmpty(product)||isEmpty(product.getSalesId())){
             throw new ValidationException("The product data and the sales id must be informed.");
