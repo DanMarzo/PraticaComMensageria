@@ -1,7 +1,13 @@
-import { Controller } from '@nestjs/common';
-import { SalesService } from './sales.service';
+import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { AuthGuardService } from '../auth/auth-guard/auth-guard.service';
 
-@Controller('sales')
+@Controller('api/sales')
 export class SalesController {
-  constructor(private readonly salesService: SalesService) {}
+  constructor() {}
+
+  @UseGuards(AuthGuardService)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 }
