@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthGuardService } from './modules/auth/auth-guard/auth-guard.service';
-import { AuthService } from './modules/auth/auth.service';
 import { SalesService } from './modules/sales/sales.service';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { AuthGuardModule } from './modules/auth/auth-guard/auth-guard.module';
 
 @Module({
   imports: [
@@ -19,10 +16,9 @@ import { AuthGuardModule } from './modules/auth/auth-guard/auth-guard.module';
       }),
     }),
     SalesModule,
-    AuthGuardModule,
     AuthModule,
   ],
   controllers: [],
-  providers: [AuthGuardService, AuthService, SalesService],
+  providers: [SalesService],
 })
 export class AppModule {}
