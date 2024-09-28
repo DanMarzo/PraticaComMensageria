@@ -1,6 +1,7 @@
 package com.br.danmarzo.produto.modules.product.controller;
 
 import com.br.danmarzo.produto.config.exception.SuccessResponse;
+import com.br.danmarzo.produto.modules.product.dto.ProductCheckStockRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductSalesResponseDTO;
@@ -46,12 +47,15 @@ public class ProductController {
     public List<ProductResponseDTO> findByCategoryId(@RequestParam() Integer id){
         return this.productService.findByCategoryId(id);
     }
-
     @DeleteMapping("delete")
     public SuccessResponse delete(@RequestParam() Integer id){
         return this.productService.delete(id);
     }
 
+    @PostMapping("check-stock")
+    public SuccessResponse checkProductStock(@RequestBody ProductCheckStockRequestDTO checkStockRequest){
+        return this.productService.CheckStock(checkStockRequest);
+    }
     @GetMapping("{id}/sales")
     public ProductSalesResponseDTO findProductSales(@PathVariable Integer id){
         return productService.findProductSales(id);

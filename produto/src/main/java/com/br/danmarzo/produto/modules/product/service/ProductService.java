@@ -4,10 +4,7 @@ import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.config.exception.ValidationException;
 import com.br.danmarzo.produto.domain.ProductEntity;
 import com.br.danmarzo.produto.modules.category.service.CategoryService;
-import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
-import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
-import com.br.danmarzo.produto.modules.product.dto.ProductSalesResponseDTO;
-import com.br.danmarzo.produto.modules.product.dto.ProductStockDTO;
+import com.br.danmarzo.produto.modules.product.dto.*;
 import com.br.danmarzo.produto.modules.product.repository.ProductRepository;
 import com.br.danmarzo.produto.modules.sales.client.SalesClient;
 import com.br.danmarzo.produto.modules.sales.dto.SalesConfirmationDTO;
@@ -112,8 +109,27 @@ public class ProductService {
         return SuccessResponse.create("The product was deleted.");
     }
 
-    @Transactional
+    public SuccessResponse CheckStock(ProductCheckStockRequestDTO checkStockRequestDTO) {
+        if (isEmpty(checkStockRequestDTO) || isEmpty(checkStockRequestDTO.getProducts())) {
+            throw new ValidationException("The request data and products must be informed.");
+        }
+        checkStockRequestDTO
+                .getProducts()
+                .forEach(this::validateStock);
+        return SuccessResponse.create("The stock is ok!");
+    }
 
+    private void validateStock(ProductQuantityDTO productQuantity) {
+        if (isEmpty(productQuantity) || isEmpty(productQuantity.getQuantity())) {
+            throw new ValidationException("Product ID and quantity must be informed.");
+        }
+        var product = findById(productQuantity.getProductId());
+        if (product.getQuantityAvailable() < productQuantity.getQuantity()) {
+            throw new ValidationException(String.format("The product %s is out of stock", product.getId()));
+        }
+    }
+
+    @Transactional
     public void updateProductStock(ProductStockDTO product) {
         try {
             this.validateStockUpdateData(product);
