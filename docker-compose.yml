@@ -35,7 +35,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=1q2w3e4r
-      - MONGO_INITDB_DATABASE=myproject
+      - MONGO_INITDB_DATABASE=sales
     ports:
       - "27017:27017"
   sales_rabbit:
