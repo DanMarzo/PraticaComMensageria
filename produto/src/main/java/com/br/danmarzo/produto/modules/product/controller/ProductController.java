@@ -3,6 +3,7 @@ package com.br.danmarzo.produto.modules.product.controller;
 import com.br.danmarzo.produto.config.exception.SuccessResponse;
 import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
+import com.br.danmarzo.produto.modules.product.dto.ProductSalesResponseDTO;
 import com.br.danmarzo.produto.modules.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,8 @@ public class ProductController {
         return this.productService.delete(id);
     }
 
-    @GetMapping("{productId}/sales")
-    public
+    @GetMapping("{id}/sales")
+    public ProductSalesResponseDTO findProductSales(@PathVariable Integer id){
+        return productService.findProductSales(id);
+    }
 }

@@ -1,6 +1,5 @@
 package com.br.danmarzo.produto.config.interceptor;
 
-
 import com.br.danmarzo.produto.config.exception.ValidationException;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
