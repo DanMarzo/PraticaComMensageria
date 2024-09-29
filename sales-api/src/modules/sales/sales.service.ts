@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order, OrderDocument } from './../../domain/order.entity';
+import { CreateOrderDTO } from './dtos/create-order.dto';
+import { User } from 'src/domain/user.entity';
 
 @Injectable()
 export class SalesService {
@@ -9,8 +11,8 @@ export class SalesService {
     @InjectModel(Order.name) private readonly orderModel: Model<OrderDocument>,
   ) {}
 
-  async findAll(): Promise<any> {
-    const resultado = await this.orderModel.find().exec();
-    return resultado;
+  async createSale(createSale: CreateOrderDTO, user: User): Promise<any> {
+    const newOrder = Order.generateOrder(createSale, user);
+    return await this.orderModel.create(newOrder);
   }
 }

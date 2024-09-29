@@ -1,4 +1,4 @@
-export class ProductEntity {
+export class Product {
   id: number;
   quantity: number;
 }
