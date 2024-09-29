@@ -14,8 +14,10 @@ import { AuthModule } from './modules/auth/auth.module';
         uri: configService.get<string>('CONNECT_MONGO'),
       }),
     }),
+
     SalesModule,
     AuthModule,
+    ConfigModule,
   ],
   controllers: [],
   providers: [],
