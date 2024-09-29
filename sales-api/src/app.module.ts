@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SalesService } from './modules/sales/sales.service';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
 
@@ -12,14 +11,13 @@ import { AuthModule } from './modules/auth/auth.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('CONNECT_MONGO'), // Pega a variável do .env
+        uri: configService.get<string>('CONNECT_MONGO'),
       }),
     }),
-
     SalesModule,
     AuthModule,
   ],
   controllers: [],
-  providers: [SalesService],
+  providers: [],
 })
 export class AppModule {}

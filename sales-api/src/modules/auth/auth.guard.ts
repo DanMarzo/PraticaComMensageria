@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       if (!userInfo) {
         throw new UnauthorizedException();
       }
-      request['userInfo '] = userInfo;
+      request['userInfo'] = userInfo;
     } catch {
       throw new UnauthorizedException();
     }
