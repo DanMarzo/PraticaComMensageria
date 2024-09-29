@@ -11,7 +11,7 @@ export class SalesController {
 
   @UseGuards(AuthGuard)
   @Post('create')
-  async getProfile(@Request() req, @Body() createOrderDTO: CreateOrderDTO) {
+  async create(@Request() req, @Body() createOrderDTO: CreateOrderDTO) {
     const resultado = await this.salesService.createSale(
       createOrderDTO,
       req.userInfo,
