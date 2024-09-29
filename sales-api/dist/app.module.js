@@ -10,12 +10,9 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
-const auth_guard_service_1 = require("./modules/auth/auth-guard/auth-guard.service");
-const auth_service_1 = require("./modules/auth/auth.service");
 const sales_service_1 = require("./modules/sales/sales.service");
 const sales_module_1 = require("./modules/sales/sales.module");
 const auth_module_1 = require("./modules/auth/auth.module");
-const auth_guard_module_1 = require("./modules/auth/auth-guard/auth-guard.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,11 +28,10 @@ exports.AppModule = AppModule = __decorate([
                 }),
             }),
             sales_module_1.SalesModule,
-            auth_guard_module_1.AuthGuardModule,
             auth_module_1.AuthModule,
         ],
         controllers: [],
-        providers: [auth_guard_service_1.AuthGuardService, auth_service_1.AuthService, sales_service_1.SalesService],
+        providers: [sales_service_1.SalesService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

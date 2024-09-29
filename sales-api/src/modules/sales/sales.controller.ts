@@ -1,13 +1,15 @@
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
-import { AuthGuardService } from '../auth/auth-guard/auth-guard.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('api/sales')
 export class SalesController {
   constructor() {}
 
-  @UseGuards(AuthGuardService)
+  @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    return {
+      teste: 'ok',
+    };
   }
 }

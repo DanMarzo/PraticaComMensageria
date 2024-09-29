@@ -15,6 +15,7 @@ import { AuthModule } from './modules/auth/auth.module';
         uri: configService.get<string>('CONNECT_MONGO'), // Pega a variável do .env
       }),
     }),
+
     SalesModule,
     AuthModule,
   ],

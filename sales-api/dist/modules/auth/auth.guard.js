@@ -9,21 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthGuardService = void 0;
+exports.AuthGuard = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
-let AuthGuardService = class AuthGuardService {
-    constructor(jwtService) {
-        this.jwtService = jwtService;
+const auth_service_1 = require("./auth.service");
+let AuthGuard = class AuthGuard {
+    constructor(authService) {
+        this.authService = authService;
     }
     async canActivate(context) {
-        console.log('Chegou aqui no midleware');
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new common_1.UnauthorizedException();
+            throw new common_1.UnauthorizedException('Token não localizado');
         }
         try {
+            const userInfo = await this.authService.validarToken(token);
+            if (!userInfo) {
+                throw new common_1.UnauthorizedException();
+            }
+            request['userInfo '] = userInfo;
         }
         catch {
             throw new common_1.UnauthorizedException();
@@ -35,9 +39,9 @@ let AuthGuardService = class AuthGuardService {
         return type === 'Bearer' ? token : undefined;
     }
 };
-exports.AuthGuardService = AuthGuardService;
-exports.AuthGuardService = AuthGuardService = __decorate([
+exports.AuthGuard = AuthGuard;
+exports.AuthGuard = AuthGuard = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
-], AuthGuardService);
-//# sourceMappingURL=auth-guard.service.js.map
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
+], AuthGuard);
+//# sourceMappingURL=auth.guard.js.map

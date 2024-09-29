@@ -14,16 +14,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SalesController = void 0;
 const common_1 = require("@nestjs/common");
-const auth_guard_service_1 = require("../auth/auth-guard/auth-guard.service");
+const auth_guard_1 = require("../auth/auth.guard");
 let SalesController = class SalesController {
     constructor() { }
     getProfile(req) {
-        return req.user;
+        return {
+            teste: 'ok',
+        };
     }
 };
 exports.SalesController = SalesController;
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_service_1.AuthGuardService),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),

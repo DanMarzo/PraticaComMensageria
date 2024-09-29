@@ -9,12 +9,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
+const jwt_1 = require("@nestjs/jwt");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         providers: [auth_service_1.AuthService],
+        imports: [
+            jwt_1.JwtModule.registerAsync({
+                useFactory: () => ({
+                    global: true,
+                    secret: process.env.SECRET_KEY,
+                }),
+            }),
+        ],
+        exports: [auth_service_1.AuthService],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map
