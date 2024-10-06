@@ -1,23 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from './config.service';
-import { ConfigController } from './config.controller';
+import { RabbitmqService } from './rabbitmq.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  controllers: [ConfigController],
-  providers: [ConfigService],
+  providers: [RabbitmqService],
+  exports: [RabbitmqService],
   imports: [
     ClientsModule.registerAsync([
       {
-        name: 'sales_mq',
+        name: 'SALES_MQ',
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: any) => {
           return {
             transport: Transport.RMQ,
             options: {
-              urls: configService.get('RABBIT_MQ_CONN'),
-              queue: 'sales',
+              urls: [configService.get('RABBIT_MQ_CONN')],
+              //queue: 'sales',
               queueOptions: { durable: true },
             },
           };
@@ -26,4 +26,4 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
   ],
 })
-export class ConfigModule {}
+export class RabbitmqModule {}
