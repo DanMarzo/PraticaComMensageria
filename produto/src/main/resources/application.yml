@@ -44,7 +44,7 @@ app-config:
     exchange: product.topic
     routingKey:
       product-stock: product-stock-update.routingKey
-      sales-confirmation: sales-confirmation-update.routingKey
+      sales-confirmation: sales-confirmation.routingKey
     queue:
       product-stock: product-stock-update.queue
-      sales-confirmation: sales-confirmation-update.queue
+      sales-confirmation: sales-confirmation.queue

@@ -10,7 +10,6 @@ async function bootstrap() {
     .setTitle('Sales example')
     .setDescription('The Sales API description')
     .setVersion('1.0')
-    //.addTag('sales')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -21,6 +20,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: configService.get('RABBIT_MQ_CONN'),
+      queue: '',
       queueOptions: { durable: true },
     },
   };
