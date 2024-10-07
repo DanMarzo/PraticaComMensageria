@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { RabbitmqModule } from './confg/rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
@@ -15,11 +14,9 @@ import { RabbitmqModule } from './confg/rabbitmq/rabbitmq.module';
         uri: configService.get<string>('CONNECT_MONGO'),
       }),
     }),
-
     SalesModule,
     AuthModule,
     ConfigModule,
-    RabbitmqModule,
   ],
   controllers: [],
   providers: [],
