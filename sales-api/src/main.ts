@@ -16,16 +16,25 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   const configService = app.get(ConfigService);
 
+  const queueSales = configService.get('SALES_CONFIRMATION_QUEUE');
+  console.log(queueSales);
+
   const microservicesSales: MicroserviceOptions = {
     transport: Transport.RMQ,
     options: {
       urls: configService.get('RABBIT_MQ_CONN'),
-      queue: configService.get('SALES_CONFIRMATION_QUEUE'),
+      queue: queueSales,
+      noAck: false,
       queueOptions: { durable: true },
+      socketOptions: {
+        clientProperties: {
+          connectionName: 'sales-confirmation.queue',
+        },
+      },
     },
   };
 
-  const microservicesProduct: MicroserviceOptions = {
+  const microservicesProduct = {
     transport: Transport.RMQ,
     options: {
       urls: configService.get('RABBIT_MQ_CONN'),
@@ -33,8 +42,8 @@ async function bootstrap() {
       queueOptions: { durable: true },
     },
   };
-  app.connectMicroservice<MicroserviceOptions>(microservicesSales);
-  app.connectMicroservice<MicroserviceOptions>(microservicesProduct);
+  app.connectMicroservice(microservicesSales);
+  app.connectMicroservice(microservicesProduct);
 
   await app.startAllMicroservices();
   await app.listen(8082);
