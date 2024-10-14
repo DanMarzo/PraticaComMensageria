@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MensageriaService } from './mensageria.service';
-import { Mensageria } from './mensageria';
+import { RabbitMQProvider } from './mensageria.provider';
 
 @Module({
-  providers: [MensageriaService, Mensageria],
+  providers: [MensageriaService, RabbitMQProvider],
+  exports: [RabbitMQProvider],
 })
 export class MensageriaModule {}
