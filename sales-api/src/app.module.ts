@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MensageriaModule } from './config/mensageria/mensageria.module';
+import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
 import { MensageriaModule } from './config/mensageria/mensageria.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { MensageriaModule } from './config/mensageria/mensageria.module';
     AuthModule,
     ConfigModule,
     MensageriaModule,
+    SalesQueueModule,
   ],
   controllers: [],
   providers: [],
