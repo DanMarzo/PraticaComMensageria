@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RabbitMQProviderType } from './mensageria.provider';
-import { Channel, Message } from 'amqplib';
+import { RabbitMQProviderType } from './msg-config.provider';
+import { Channel } from 'amqp-connection-manager';
+import { Message } from 'amqplib';
 
 @Injectable()
-export class MensageriaService {
+export class MsgConfigService {
   private channel: Channel;
   constructor(
     @Inject('RABBITMQ_PROVIDER')

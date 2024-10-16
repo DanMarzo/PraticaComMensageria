@@ -3,9 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { MensageriaModule } from './config/mensageria/mensageria.module';
+import { MsgConfigModule } from './config/msg-config/msg-config.module';
 import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
-import { MensageriaModule } from './config/mensageria/mensageria.module';
 
 @Module({
   imports: [
@@ -20,8 +19,8 @@ import { MensageriaModule } from './config/mensageria/mensageria.module';
     SalesModule,
     AuthModule,
     ConfigModule,
-    MensageriaModule,
     SalesQueueModule,
+    MsgConfigModule,
   ],
   controllers: [],
   providers: [],
