@@ -5,6 +5,7 @@ import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MsgConfigModule } from './config/msg-config/msg-config.module';
 import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
+import { ProductQueueModule } from './config/product-queue/product-queue.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
     ConfigModule,
     SalesQueueModule,
     MsgConfigModule,
+    ProductQueueModule,
   ],
   controllers: [],
   providers: [],

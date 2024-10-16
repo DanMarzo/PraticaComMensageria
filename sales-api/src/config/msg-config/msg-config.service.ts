@@ -11,7 +11,7 @@ export class MsgConfigService {
     private readonly rabbitMqProvider: RabbitMQProviderType,
   ) {}
 
-  async start() {
+  private async start() {
     this.channel ??= await this.rabbitMqProvider;
   }
 
@@ -20,10 +20,12 @@ export class MsgConfigService {
     routingKey: string,
     message: string,
   ) {
+    await this.start();
     return this.channel.publish(exchange, routingKey, Buffer.from(message));
   }
 
   async consume(queue: string, callback?: (message: Message) => void) {
+    await this.start();
     return this.channel.consume(queue, (message) => {
       if (callback) callback(message);
       this.channel.ack(message);
