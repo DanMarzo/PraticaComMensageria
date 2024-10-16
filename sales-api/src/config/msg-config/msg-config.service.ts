@@ -15,11 +15,6 @@ export class MsgConfigService {
     this.channel ??= await this.rabbitMqProvider;
   }
 
-  async publishInQueue(queue: string, message: string) {
-    await this.start();
-    return this.channel.sendToQueue(queue, Buffer.from(message));
-  }
-
   async publishInExchange(
     exchange: string,
     routingKey: string,
