@@ -18,10 +18,14 @@ export class MsgConfigService {
   async publishInExchange(
     exchange: string,
     routingKey: string,
-    message: string,
+    message: object,
   ) {
     await this.start();
-    return this.channel.publish(exchange, routingKey, Buffer.from(message));
+    return this.channel.publish(
+      exchange,
+      routingKey,
+      Buffer.from(JSON.stringify(message)),
+    );
   }
 
   async consume(queue: string, callback?: (message: Message) => void) {
