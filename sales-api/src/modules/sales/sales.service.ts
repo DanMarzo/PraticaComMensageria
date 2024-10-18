@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { OrderStatusEnum } from 'src/domain/order-status.enum';
 import { SalesConfirmationDTO } from './dtos/sales-confirmation.dto';
 import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SalesService {
