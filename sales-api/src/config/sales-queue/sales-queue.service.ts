@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { MsgConfigService } from '../msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
+import { SalesService } from 'src/modules/sales/sales.service';
 
 @Injectable()
 export class SalesQueueService implements OnModuleInit {
@@ -10,6 +11,7 @@ export class SalesQueueService implements OnModuleInit {
   constructor(
     private readonly msgConfigService: MsgConfigService,
     private readonly config: ConfigService,
+    private readonly salesService: SalesService,
   ) {}
 
   private startVariables() {
@@ -18,15 +20,15 @@ export class SalesQueueService implements OnModuleInit {
       'SALES_CONFIRMATION_ROUTING_KEY',
     );
   }
-  exibir(params: string) {
-    console.log(params);
-  }
+
   async onModuleInit() {
     if (!this.salesConfirmationQueue) this.startVariables();
     await this.msgConfigService.consume(
       this.salesConfirmationQueue,
-      (mensagem) => {
-        this.exibir(mensagem.content.toString());
+      async (mensagem) => {
+        await this.salesService.updateStatus(
+          JSON.parse(mensagem.content.toString()),
+        );
       },
     );
   }

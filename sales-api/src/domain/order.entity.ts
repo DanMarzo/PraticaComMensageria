@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { User } from './user.entity';
 import { Product } from './product.entity';
 import { CreateOrderDTO } from 'src/modules/sales/dtos/create-order.dto';
+import { OrderStatusEnum } from './order-status.enum';
 
 export type OrderDocument = HydratedDocument<Order>;
 
@@ -33,7 +34,7 @@ export class Order {
   @Prop({ isRequired: true, type: Array })
   products: Array<Product>;
   @Prop({ isRequired: true, type: String })
-  status: string;
+  status: OrderStatusEnum;
   @Prop({ isRequired: true, type: Date })
   createAt: Date;
   @Prop({ isRequired: true, type: Date })

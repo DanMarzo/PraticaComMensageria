@@ -6,6 +6,8 @@ import { CreateOrderDTO } from './dtos/create-order.dto';
 import { User } from 'src/domain/user.entity';
 import { MsgConfigService } from 'src/config/msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
+import { OrderStatusEnum } from 'src/domain/order-status.enum';
+import { SalesConfirmationDTO } from './dtos/sales-confirmation.dto';
 
 @Injectable()
 export class SalesService {
@@ -16,15 +18,27 @@ export class SalesService {
   ) {}
 
   async createSale(createSale: CreateOrderDTO, user: User): Promise<any> {
+    createSale.status = OrderStatusEnum.PENDING;
     const newOrder = Order.generateOrder(createSale, user);
     return await this.orderModel.create(newOrder);
   }
 
-  async testMessage() {
-    await this.messageService.publishInExchange(
-      this.configService.get('PRODUCT_TOPIC'),
-      this.configService.get('PRODUCT_STOCK_UPDATE_ROUTING_KEY'),
-      { produto_teste: 'teste' },
-    );
+  async updateStatus(salesConfirmartion: SalesConfirmationDTO) {
+    const order = await this.orderModel.findById(salesConfirmartion.salesId);
+    if (order.status && order.status != salesConfirmartion.status) {
+      order.status = salesConfirmartion.status;
+      await this.orderModel.updateOne(
+        { id: order.id },
+        { status: salesConfirmartion.status },
+      );
+    }
+  }
+
+  async findById(id: string) {
+    return await this.orderModel.findById(id);
+  }
+
+  async findAll() {
+    return await this.orderModel.find();
   }
 }

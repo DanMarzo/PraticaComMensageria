@@ -1,11 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-  Request,
-  Body,
-  Post,
-  Get,
-} from '@nestjs/common';
+import { Controller, UseGuards, Request, Body, Post } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { SalesService } from './sales.service';
 import { CreateOrderDTO } from './dtos/create-order.dto';
@@ -24,11 +17,5 @@ export class SalesController {
       req.userInfo,
     );
     return resultado;
-  }
-  //@UseGuards(AuthGuard)
-  @Get('message')
-  async teste() {
-    await this.salesService.testMessage();
-    return {};
   }
 }
