@@ -1,11 +1,18 @@
-import { Controller, UseGuards, Request, Body, Post } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Request,
+  Body,
+  Post,
+  Scope,
+} from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 import { SalesService } from './sales.service';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('sales')
-@Controller('api/sales')
+@Controller({ path: 'api/sales', scope: Scope.REQUEST })
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 

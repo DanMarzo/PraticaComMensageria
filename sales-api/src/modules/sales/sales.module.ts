@@ -14,5 +14,6 @@ import { MsgConfigModule } from 'src/config/msg-config/msg-config.module';
     MsgConfigModule,
   ],
   providers: [SalesService],
+  exports: [SalesService],
 })
 export class SalesModule {}
