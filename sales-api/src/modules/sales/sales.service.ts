@@ -20,8 +20,8 @@ export class SalesService {
   ) {}
 
   async createSale(createSale: CreateOrderDTO, user: User): Promise<any> {
-    const token = this.request.headers.get('Authorization');
-    console.log(token);
+    const bearer = this.request.headers['authorization'];
+    console.log(bearer);
     createSale.status = OrderStatusEnum.PENDING;
     const newOrder = Order.generateOrder(createSale, user);
     return await this.orderModel.create(newOrder);

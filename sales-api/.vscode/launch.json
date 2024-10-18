@@ -8,9 +8,6 @@
             "type": "node",
             "request": "attach",
             "name": "Iniciar o Programa",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ]
         }
     ]
 }
