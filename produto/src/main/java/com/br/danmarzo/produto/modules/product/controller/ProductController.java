@@ -54,7 +54,8 @@ public class ProductController {
 
     @PostMapping("check-stock")
     public SuccessResponse checkProductStock(@RequestBody ProductCheckStockRequestDTO checkStockRequest){
-        return this.productService.CheckStock(checkStockRequest);
+        SuccessResponse response = this.productService.CheckStock(checkStockRequest);
+        return response;
     }
     @GetMapping("{id}/sales")
     public ProductSalesResponseDTO findProductSales(@PathVariable Integer id){
