@@ -15,6 +15,8 @@ export class SalesQueueService implements OnModuleInit {
   ) {}
 
   private startVariables() {
+    console.log('->');
+
     this.salesConfirmationQueue = this.config.get('SALES_CONFIRMATION_QUEUE');
     this.salesConfirmationRoutingKey = this.config.get(
       'SALES_CONFIRMATION_ROUTING_KEY',
@@ -22,13 +24,17 @@ export class SalesQueueService implements OnModuleInit {
   }
 
   async onModuleInit() {
+    console.log('---------');
+
     if (!this.salesConfirmationQueue) this.startVariables();
     await this.msgConfigService.consume(
       this.salesConfirmationQueue,
       async (mensagem) => {
-        await this.salesService.updateStatus(
-          JSON.parse(mensagem.content.toString()),
-        );
+        console.log(mensagem.content.toString());
+
+        // await this.salesService.updateStatus(
+        //   JSON.parse(mensagem.content.toString()),
+        // );
       },
     );
   }

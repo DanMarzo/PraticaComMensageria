@@ -6,5 +6,6 @@ import { SalesModule } from 'src/modules/sales/sales.module';
 @Module({
   imports: [MsgConfigModule, SalesModule],
   providers: [SalesQueueService],
+  exports: [SalesQueueService],
 })
 export class SalesQueueModule {}

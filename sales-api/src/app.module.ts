@@ -12,15 +12,6 @@ import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
-    // HttpModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   inject: [ConfigModule],
-    //   useFactory: (configService: ConfigService) => ({
-    //     baseURL: configService.get('PRODUCT_API_URL'),
-    //     timeout: 5000,
-    //     maxRedirects: 5,
-    //   }),
-    // }),
     ConfigModule.forRoot({ envFilePath: '.development.env', isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

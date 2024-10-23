@@ -33,7 +33,25 @@ export class SalesService {
     await this.validateProductStock(createSale);
     createSale.status = OrderStatusEnum.PENDING;
     const newOrder = Order.generateOrder(createSale, res.userInfo);
-    return await this.orderModel.create(newOrder);
+    const model = await this.orderModel.create(newOrder);
+    await this.sendMessage(createSale, model.id);
+    return model;
+  }
+
+  async sendMessage(newSale: CreateOrderDTO, id: string) {
+    const produtTopic = this.configService.get('PRODUCT_TOPIC');
+    const updateStockUpdateRoutingKey = this.configService.get(
+      'PRODUCT_STOCK_UPDATE_ROUTING_KEY',
+    );
+    const novaVenda = {
+      salesId: id,
+      products: newSale.products,
+    };
+    await this.messageService.publishInExchange(
+      produtTopic,
+      updateStockUpdateRoutingKey,
+      novaVenda,
+    );
   }
 
   async updateStatus(salesConfirmartion: SalesConfirmationDTO) {
