@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from 'src/domain/order.entity';
 import { AuthModule } from '../auth/auth.module';
 import { MsgConfigModule } from 'src/config/msg-config/msg-config.module';
+import { ProductsModule } from '../products/products.module';
 
 @Module({
   controllers: [SalesController],
@@ -12,6 +13,7 @@ import { MsgConfigModule } from 'src/config/msg-config/msg-config.module';
     AuthModule,
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
     MsgConfigModule,
+    ProductsModule,
   ],
   providers: [SalesService],
   exports: [SalesService],

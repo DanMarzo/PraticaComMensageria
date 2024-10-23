@@ -19,10 +19,7 @@ export class SalesController {
   @UseGuards(AuthGuard)
   @Post('create')
   async create(@Request() req, @Body() createOrderDTO: CreateOrderDTO) {
-    const resultado = await this.salesService.createSale(
-      createOrderDTO,
-      req.userInfo,
-    );
+    const resultado = await this.salesService.createSale(createOrderDTO);
     return resultado;
   }
 }

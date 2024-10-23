@@ -1,15 +1,22 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  Scope,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order, OrderDocument } from './../../domain/order.entity';
 import { CreateOrderDTO } from './dtos/create-order.dto';
-import { User } from 'src/domain/user.entity';
+// import { User } from 'src/domain/user.entity';
 import { MsgConfigService } from 'src/config/msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
 import { OrderStatusEnum } from 'src/domain/order-status.enum';
 import { SalesConfirmationDTO } from './dtos/sales-confirmation.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { ProductsService } from '../products/products.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SalesService {
@@ -18,13 +25,14 @@ export class SalesService {
     @InjectModel(Order.name) private readonly orderModel: Model<OrderDocument>,
     private readonly messageService: MsgConfigService,
     private readonly configService: ConfigService,
+    private readonly productService: ProductsService,
   ) {}
 
-  async createSale(createSale: CreateOrderDTO, user: User): Promise<any> {
-    const bearer = this.request.headers['authorization'];
-    console.log(bearer);
+  async createSale(createSale: CreateOrderDTO): Promise<any> {
+    const res = this.request as any;
+    await this.validateProductStock(createSale);
     createSale.status = OrderStatusEnum.PENDING;
-    const newOrder = Order.generateOrder(createSale, user);
+    const newOrder = Order.generateOrder(createSale, res.userInfo);
     return await this.orderModel.create(newOrder);
   }
 
@@ -36,6 +44,22 @@ export class SalesService {
         { id: order.id },
         { status: salesConfirmartion.status },
       );
+    }
+  }
+
+  private async validateProductStock(
+    createSale: CreateOrderDTO,
+  ): Promise<void> {
+    const bearer = this.request.headers['authorization'];
+    if (!bearer) {
+      throw new UnauthorizedException('Token nao informado.');
+    }
+    const stockIsOut = await this.productService.checkProductStock(
+      bearer,
+      createSale.products,
+    );
+    if (!stockIsOut) {
+      throw new BadRequestException('Estoque esgotado!');
     }
   }
 
