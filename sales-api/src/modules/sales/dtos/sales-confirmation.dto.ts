@@ -5,9 +5,4 @@ class SalesConfirmationDTO {
   status: OrderStatusEnum;
 }
 
-// enum SalesStatusEnum {
-//   APPROVED,
-//   REJECT,
-// }
-
 export { SalesConfirmationDTO };

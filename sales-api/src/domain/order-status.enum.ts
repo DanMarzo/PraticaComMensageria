@@ -1,6 +1,6 @@
 enum OrderStatusEnum {
   PENDING = 'PENDING',
-  ACCEPTED = 'ACCEPTED',
+  APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
 export { OrderStatusEnum };

@@ -2,23 +2,20 @@ import {
   BadRequestException,
   Inject,
   Injectable,
-  Scope,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order, OrderDocument } from './../../domain/order.entity';
 import { CreateOrderDTO } from './dtos/create-order.dto';
-// import { User } from 'src/domain/user.entity';
 import { MsgConfigService } from 'src/config/msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
 import { OrderStatusEnum } from 'src/domain/order-status.enum';
-import { SalesConfirmationDTO } from './dtos/sales-confirmation.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { ProductsService } from '../products/products.service';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class SalesService {
   constructor(
     @Inject(REQUEST) private readonly request: Request,
@@ -52,17 +49,6 @@ export class SalesService {
       updateStockUpdateRoutingKey,
       novaVenda,
     );
-  }
-
-  async updateStatus(salesConfirmartion: SalesConfirmationDTO) {
-    const order = await this.orderModel.findById(salesConfirmartion.salesId);
-    if (order.status && order.status != salesConfirmartion.status) {
-      order.status = salesConfirmartion.status;
-      await this.orderModel.updateOne(
-        { id: order.id },
-        { status: salesConfirmartion.status },
-      );
-    }
   }
 
   private async validateProductStock(

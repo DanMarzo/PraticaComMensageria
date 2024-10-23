@@ -1,41 +1,39 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { MsgConfigService } from '../msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
-import { SalesService } from 'src/modules/sales/sales.service';
+import { Order, OrderDocument } from 'src/domain/order.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { SalesConfirmationDTO } from 'src/modules/sales/dtos/sales-confirmation.dto';
 
 @Injectable()
 export class SalesQueueService implements OnModuleInit {
-  private salesConfirmationQueue: string;
-  private salesConfirmationRoutingKey: string;
-
   constructor(
+    @InjectModel(Order.name) private readonly orderModel: Model<OrderDocument>,
     private readonly msgConfigService: MsgConfigService,
-    private readonly config: ConfigService,
-    private readonly salesService: SalesService,
+    private readonly configService: ConfigService,
+    //private readonly salesService: SalesService,
   ) {}
-
-  private startVariables() {
-    console.log('->');
-
-    this.salesConfirmationQueue = this.config.get('SALES_CONFIRMATION_QUEUE');
-    this.salesConfirmationRoutingKey = this.config.get(
-      'SALES_CONFIRMATION_ROUTING_KEY',
-    );
-  }
-
   async onModuleInit() {
-    console.log('---------');
-
-    if (!this.salesConfirmationQueue) this.startVariables();
     await this.msgConfigService.consume(
-      this.salesConfirmationQueue,
+      this.configService.get('SALES_CONFIRMATION_QUEUE'),
       async (mensagem) => {
-        console.log(mensagem.content.toString());
-
-        // await this.salesService.updateStatus(
-        //   JSON.parse(mensagem.content.toString()),
-        // );
+        await this.updateStatus(JSON.parse(mensagem.content.toString()));
       },
     );
+  }
+  // A implementacao foi feita diretamente,
+  // pois havia algum problema ao receber o Service de Order,
+  // o que fazia o OnModuleInit nao funcionar
+  async updateStatus(salesConfirmartion: SalesConfirmationDTO) {
+    const order = await this.orderModel.findById(salesConfirmartion.salesId);
+    if (order && order.status != salesConfirmartion.status) {
+      await this.orderModel
+        .updateOne(
+          { _id: order.id }, // Filtro para encontrar o documento
+          { $set: { status: salesConfirmartion.status, updateAt: new Date() } }, // Operação de atualização
+        )
+        .exec();
+    }
   }
 }

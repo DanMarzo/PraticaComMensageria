@@ -4,11 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MsgConfigModule } from './config/msg-config/msg-config.module';
-import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
 import { ProductQueueModule } from './config/product-queue/product-queue.module';
 import { ProductsService } from './modules/products/products.service';
 import { ProductsModule } from './modules/products/products.module';
 import { HttpModule } from '@nestjs/axios';
+import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
 
 @Module({
   imports: [
@@ -23,11 +23,11 @@ import { HttpModule } from '@nestjs/axios';
     SalesModule,
     AuthModule,
     ConfigModule,
-    SalesQueueModule,
     MsgConfigModule,
     ProductQueueModule,
     ProductsModule,
     HttpModule,
+    SalesQueueModule,
   ],
   controllers: [],
   providers: [ProductsService],
