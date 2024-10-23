@@ -20,7 +20,10 @@ public class AuthInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler
     ) throws Exception {
-        //return HandlerInterceptor.super.preHandle(request, response, handler);
+        System.out.println(request.getRequestURI());
+        if(request.getRequestURI().contains("swagger") || request.getRequestURI().contains("api-docs")){
+            return true;
+        }
         if(this.isOptions(request)){
             return true;
         }
