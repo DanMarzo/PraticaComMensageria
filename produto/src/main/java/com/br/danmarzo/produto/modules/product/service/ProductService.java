@@ -198,9 +198,11 @@ public class ProductService {
     public ProductSalesResponseDTO findProductSales(Integer id) {
         var product = findById(id);
         try {
-            var sales = this.salesClient.findSalesByProductId(id).orElseThrow(() -> new ValidationException("The sales was not found this product."));
-            return ProductSalesResponseDTO.of(product, sales.getSalesId());
+            var sales = this.salesClient.findSalesByProductId(id)
+                    .orElseThrow(() -> new ValidationException("The sales was not found this product."));
+            return ProductSalesResponseDTO.of(product, sales.getSales());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ValidationException("There was an error trying get the product's sales.");
         }
     }
