@@ -4,19 +4,18 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
+import { Order, OrderDocument } from 'src/domain/order.entity';
 import { Model } from 'mongoose';
-import { Order, OrderDocument } from './../../domain/order.entity';
-import { CreateOrderDTO } from './dtos/create-order.dto';
 import { MsgConfigService } from 'src/config/msg-config/msg-config.service';
 import { ConfigService } from '@nestjs/config';
-import { OrderStatusEnum } from 'src/domain/order-status.enum';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
 import { ProductsService } from '../products/products.service';
+import { CreateOrderDTO } from './dtos/create-order.dto';
+import { User } from 'src/domain/user.entity';
 
 @Injectable()
-export class SalesService {
+export class OrderService {
   constructor(
     @Inject(REQUEST) private readonly request: Request,
     @InjectModel(Order.name) private readonly orderModel: Model<OrderDocument>,
@@ -24,12 +23,10 @@ export class SalesService {
     private readonly configService: ConfigService,
     private readonly productService: ProductsService,
   ) {}
-
   async createSale(createSale: CreateOrderDTO): Promise<any> {
-    const res = this.request as any;
+    const userInfo = this.getUserHeader();
     await this.validateProductStock(createSale);
-    createSale.status = OrderStatusEnum.PENDING;
-    const newOrder = Order.generateOrder(createSale, res.userInfo);
+    const newOrder = Order.generateOrder(createSale, userInfo);
     const model = await this.orderModel.create(newOrder);
     await this.sendMessage(createSale, model.id);
     return model;
@@ -72,6 +69,27 @@ export class SalesService {
   }
 
   async findAll() {
-    return await this.orderModel.find();
+    const userInfo = this.getUserHeader();
+    return await this.orderModel.find({
+      'user.id': userInfo.id,
+    });
+  }
+
+  async findByProductId(id: string) {
+    const userInfo = this.getUserHeader();
+    const consulta = {
+      'products.productId': Number.parseInt(id),
+      'user.id': userInfo.id,
+    };
+    const result = await this.orderModel.find(consulta);
+    return result;
+  }
+  private getUserHeader(): User {
+    const res = this.request as any;
+    const user = res.userInfo;
+    if (!user) {
+      throw new UnauthorizedException('Não foi possível recuperar token');
+    }
+    return user;
   }
 }

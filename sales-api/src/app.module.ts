@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SalesModule } from './modules/sales/sales.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MsgConfigModule } from './config/msg-config/msg-config.module';
 import { ProductQueueModule } from './config/product-queue/product-queue.module';
@@ -9,6 +8,7 @@ import { ProductsService } from './modules/products/products.service';
 import { ProductsModule } from './modules/products/products.module';
 import { HttpModule } from '@nestjs/axios';
 import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -20,7 +20,6 @@ import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
         uri: configService.get<string>('CONNECT_MONGO'),
       }),
     }),
-    SalesModule,
     AuthModule,
     ConfigModule,
     MsgConfigModule,
@@ -28,6 +27,7 @@ import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
     ProductsModule,
     HttpModule,
     SalesQueueModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [ProductsService],

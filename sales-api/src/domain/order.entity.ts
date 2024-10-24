@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { User } from './user.entity';
 import { Product } from './product.entity';
-import { CreateOrderDTO } from 'src/modules/sales/dtos/create-order.dto';
+import { CreateOrderDTO } from 'src/modules/order/dtos/create-order.dto';
 import { OrderStatusEnum } from './order-status.enum';
 
 export type OrderDocument = HydratedDocument<Order>;
@@ -26,7 +26,7 @@ export class Order {
     order.createAt = new Date();
     order.updateAt = new Date();
     order.products = createOrderDTO.products;
-    order.status = createOrderDTO.status;
+    order.status = OrderStatusEnum.PENDING;
     return order;
   }
   @Prop({ isRequired: true, type: Object })

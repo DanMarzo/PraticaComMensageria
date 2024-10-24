@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Order, OrderDocument } from 'src/domain/order.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { SalesConfirmationDTO } from 'src/modules/sales/dtos/sales-confirmation.dto';
+import { SalesConfirmationDTO } from 'src/modules/order/dtos/sales-confirmation.dto';
 
 @Injectable()
 export class SalesQueueService implements OnModuleInit {
