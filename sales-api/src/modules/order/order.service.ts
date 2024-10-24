@@ -81,8 +81,9 @@ export class OrderService {
       'products.productId': Number.parseInt(id),
       'user.id': userInfo.id,
     };
-    const result = await this.orderModel.find(consulta);
-    return result;
+    const resultSearch = await this.orderModel.find(consulta);
+    const result = resultSearch.map((item) => item._id);
+    return { sales: result };
   }
   private getUserHeader(): User {
     const res = this.request as any;
