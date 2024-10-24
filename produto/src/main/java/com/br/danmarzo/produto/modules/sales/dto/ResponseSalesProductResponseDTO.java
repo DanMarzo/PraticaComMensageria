@@ -9,5 +9,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseSalesProductResponseDTO {
-    private List<String> salesId;
+    private List<String> sales;
 }
