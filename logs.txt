@@ -1,0 +1,8 @@
+Transaction Id  -> Id enviados por todos os servicos durante uma requisicao
+ServiceId       -> Id Criado para cada requisicao durante uma requisicao
+
+Middlewares
+Logs de entrada e saida dos dados
+
+Request  to Post order with data {} and TransactionId {} and serviceId: {}
+Response to Post order with data {} and TransactionId {} and serviceId: {}
