@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './modules/auth/auth.module';
@@ -9,6 +14,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { HttpModule } from '@nestjs/axios';
 import { SalesQueueModule } from './config/sales-queue/sales-queue.module';
 import { OrderModule } from './modules/order/order.module';
+import { TracingMiddleware } from './config/tracing/tracing.middleware';
 
 @Module({
   imports: [
@@ -32,4 +38,10 @@ import { OrderModule } from './modules/order/order.module';
   controllers: [],
   providers: [ProductsService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TracingMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
