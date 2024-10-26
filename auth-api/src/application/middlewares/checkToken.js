@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import * as secrets from "../../infra/constants/secrets.js";
-import * as httpStatus from "../../infra/constants/httpStatus.js";
+import * as secrets from "./../constants/secrets.js";
+import * as httpStatus from "./../constants/httpStatus.js";
 import AuthTokenException from "../exceptions/AuthTokenException.js";
 
 const bearer = "Bearer ";

@@ -1,9 +1,10 @@
 import UserRepository from "../../infra/repository/UserRepository.js";
-import * as httpStatus from "../../infra/constants/httpStatus.js";
+import * as httpStatus from "../constants/httpStatus.js";
 import UserException from "../exceptions/UserException.js";
 import { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as secrets from "../../infra/constants/secrets.js";
+import * as secrets from "../constants/secrets.js";
+import { formatJson } from "../utils.js";
 
 class UserService {
   async findByEmail(req) {
@@ -77,6 +78,9 @@ class UserService {
   async getAccessToken(req) {
     try {
       const { email, password } = req.body;
+      const { transactionid, serviceid } = req.headers;
+      console.info(`Request to POST login with data:
+        ${formatJson(req.body)} | [Transactionid: ${transactionid} | ServiceId: ${serviceid}]`);
       this.validAccessTokenData(email, password);
       let user = await UserRepository.findByEmail(email);
 
@@ -85,13 +89,16 @@ class UserService {
       let accessToken = jwt.sign({ authUser }, secrets.apiSecret, {
         expiresIn: "1d",
       });
-      return {
+      const userResponse = {
         status: httpStatus.SUCCESS,
         data: {
           ...authUser,
           accessToken: accessToken,
         },
       };
+      console.info(`Response to POST login with data:
+        ${formatJson(userResponse)} | [Transactionid: ${transactionid} | ServiceId: ${serviceid}]`);
+      return userResponse;
     } catch (error) {
       return {
         status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
