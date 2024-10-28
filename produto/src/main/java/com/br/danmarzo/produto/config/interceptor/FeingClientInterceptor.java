@@ -1,33 +1,23 @@
 package com.br.danmarzo.produto.config.interceptor;
 
-import com.br.danmarzo.produto.config.exception.ValidationException;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
+import static com.br.danmarzo.produto.config.interceptor.RequestUtil.getCurrentRequest;
 
 @Component
-public class FeingClientInterceptor  implements RequestInterceptor {
+public class FeingClientInterceptor implements RequestInterceptor {
     private static final String Authorization = "Authorization";
+    private static final String TRANSACTION_ID = "transactionid";
 
     @Override
     public void apply(RequestTemplate template) {
-        var httpRequest = this.getCurrentRequest();
+        var httpRequest = getCurrentRequest();
         var token = httpRequest.getHeader(Authorization);
         template.header(Authorization, token);
+        template.header(TRANSACTION_ID, httpRequest.getHeader(TRANSACTION_ID));
     }
 
-    private HttpServletRequest getCurrentRequest(){
-        try {
-            var req =((ServletRequestAttributes)RequestContextHolder
-                    .getRequestAttributes())
-                    .getRequest();
-            return req;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ValidationException("A requisicao atual nao foi processada");
-        }
-    }
+
 }

@@ -6,11 +6,17 @@ import com.br.danmarzo.produto.modules.product.dto.ProductRequestDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductResponseDTO;
 import com.br.danmarzo.produto.modules.product.dto.ProductSalesResponseDTO;
 import com.br.danmarzo.produto.modules.product.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.br.danmarzo.produto.config.interceptor.RequestUtil.getCurrentRequest;
+
+@Slf4j
 @RestController
 @RequestMapping("api/product")
 public class ProductController {
@@ -53,8 +59,19 @@ public class ProductController {
     }
 
     @PostMapping("check-stock")
-    public SuccessResponse checkProductStock(@RequestBody ProductCheckStockRequestDTO checkStockRequest){
+    public SuccessResponse checkProductStock(@RequestBody ProductCheckStockRequestDTO checkStockRequest) throws JsonProcessingException {
+        var currentRequest = getCurrentRequest();
+        log.info("Request to Post check-stock with data: {} | [Transactionid: {} | ServiceId: {}]",
+                new ObjectMapper().writeValueAsString(checkStockRequest),
+                currentRequest.getHeader("transactionid"),
+                currentRequest.getHeader("serviceid")
+                );
         SuccessResponse response = this.productService.CheckStock(checkStockRequest);
+        log.info("Response to Post check-stock with data: {} | [TransactionId: {} | ServiceId: {}]",
+                new ObjectMapper().writeValueAsString(response),
+                currentRequest.getHeader("transactionid"),
+                currentRequest.getHeader("serviceid")
+        );
         return response;
     }
     @GetMapping("{id}/sales")

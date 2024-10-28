@@ -9,7 +9,7 @@ export class TracingMiddleware implements NestMiddleware {
     if (!transactionid) {
       return res.status(400).json({
         status: 400,
-        message: 'The transaction Id header is required',
+        message: 'The transaction id header is required',
       });
     }
     req.headers.serviceid = uuidV4();

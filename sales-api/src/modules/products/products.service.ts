@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { Product } from 'src/domain/product.entity';
 
@@ -9,6 +9,7 @@ export class ProductsService {
 
   async checkProductStock(
     token: string,
+    transactionid: string,
     products: Array<Product>,
   ): Promise<boolean> {
     try {
@@ -16,16 +17,17 @@ export class ProductsService {
         'api/product/check-stock',
         //Verificar essa request
         { products: [...products] },
-        { headers: { Authorization: token } },
+        { headers: { Authorization: token, transactionid } },
       );
       return response.status == 200 || response.status == 201;
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response);
+        throw new BadRequestException(error.response.data);
       } else {
-        console.log(error);
+        throw new BadRequestException(
+          `Erro desconhecido ${JSON.stringify(error)}`,
+        );
       }
-      return false;
     }
   }
 }

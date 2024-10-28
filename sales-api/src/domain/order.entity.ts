@@ -9,24 +9,20 @@ export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
 export class Order {
-  // constructor();
-  // constructor(createOrderDTO: CreateOrderDTO);
-  // constructor(createOrderDTO?: CreateOrderDTO) {
-  //   if (createOrderDTO) {
-  //     this.createAt = new Date();
-  //     this.updateAt = new Date();
-  //     this.status = createOrderDTO.status;
-  //     this.products = createOrderDTO.products;
-  //     this.user = createOrderDTO.user;
-  //   }
-  // }
-  static generateOrder(createOrderDTO: CreateOrderDTO, user: User): Order {
+  static generateOrder(
+    createOrderDTO: CreateOrderDTO,
+    user: User,
+    transactionid: string,
+    serviceid: string,
+  ): Order {
     const order = new Order();
     order.user = user;
     order.createAt = new Date();
     order.updateAt = new Date();
     order.products = createOrderDTO.products;
     order.status = OrderStatusEnum.PENDING;
+    order.serviceid = serviceid;
+    order.transactionid = transactionid;
     return order;
   }
   @Prop({ isRequired: true, type: Object })
@@ -39,6 +35,11 @@ export class Order {
   createAt: Date;
   @Prop({ isRequired: true, type: Date })
   updateAt: Date;
+
+  @Prop({ isRequired: true, type: String })
+  transactionid: string;
+  @Prop({ isRequired: true, type: String })
+  serviceid: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

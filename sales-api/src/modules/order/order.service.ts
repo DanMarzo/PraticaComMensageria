@@ -23,10 +23,21 @@ export class OrderService {
     private readonly configService: ConfigService,
     private readonly productService: ProductsService,
   ) {}
-  async createSale(createSale: CreateOrderDTO): Promise<any> {
+  async createSale(
+    createSale: CreateOrderDTO,
+    serviceid: string,
+    transactionid: string,
+  ): Promise<any> {
     const userInfo = this.getUserHeader();
+
     await this.validateProductStock(createSale);
-    const newOrder = Order.generateOrder(createSale, userInfo);
+
+    const newOrder = Order.generateOrder(
+      createSale,
+      userInfo,
+      transactionid,
+      serviceid,
+    );
     const model = await this.orderModel.create(newOrder);
     await this.sendMessage(createSale, model.id);
     return model;
@@ -52,11 +63,13 @@ export class OrderService {
     createSale: CreateOrderDTO,
   ): Promise<void> {
     const bearer = this.request.headers['authorization'];
+    const transactionid = this.request.headers['authorization'];
     if (!bearer) {
       throw new UnauthorizedException('Token nao informado.');
     }
     const stockIsOut = await this.productService.checkProductStock(
       bearer,
+      transactionid,
       createSale.products,
     );
     if (!stockIsOut) {

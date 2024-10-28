@@ -28,7 +28,12 @@ export class OrderController {
       `Request to POST create order with data: ${formatJson(createOrderDTO)} | [Transactionid: ${transactionid} | ServiceId: ${serviceid}]`,
     );
 
-    const resultado = await this.orderService.createSale(createOrderDTO);
+    const resultado = await this.orderService.createSale(
+      createOrderDTO,
+      serviceid as string,
+      transactionid as string,
+    );
+
     console.info(`Response to POST create order with data:
         ${formatJson(resultado)} | [Transactionid: ${transactionid} | ServiceId: ${serviceid}]`);
     return resultado;
