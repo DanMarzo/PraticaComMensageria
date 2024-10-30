@@ -17,37 +17,38 @@ public class RabbitConfig {
     private String salesConfirmationKey;
     @Value("${app-config.rabbit.queue.product-stock}")
     private String productStackMq;
-    @Value("${app-config.rabbit.queue.sales-confirmation}")
+    @Value("${app-config.rabbit.queue.sales-con¶firmation}")
     private String salesConfirmationMq;
 
     @Bean
-    public TopicExchange productTopicExchange(){
+    public TopicExchange productTopicExchange() {
         System.out.println(productTopicExchange);
         return new TopicExchange(productTopicExchange);
     }
 
     @Bean
-    public Queue productStockMq(){
+    public Queue productStockMq() {
         System.out.println(productStackMq);
         return new Queue(productStackMq, true);
     }
 
     @Bean
-    public Queue saleConfirmationMq(){
+    public Queue saleConfirmationMq() {
         System.out.println(salesConfirmationMq);
         return new Queue(salesConfirmationMq, true);
     }
 
     @Bean
-    public Binding productStockMqBinding(TopicExchange topicExchange){
+    public Binding productStockMqBinding(TopicExchange topicExchange) {
         System.out.println("Product Stock Binding");
         return BindingBuilder
                 .bind(this.productStockMq())
                 .to(topicExchange)
                 .with(productStackKey);
     }
+
     @Bean
-    public Binding salesConfirmationMqBinding(TopicExchange topicExchange){
+    public Binding salesConfirmationMqBinding(TopicExchange topicExchange) {
         System.out.println("Sales confirmation Binding");
         return BindingBuilder
                 .bind(saleConfirmationMq())
@@ -56,8 +57,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    public MessageConverter jsonMessageConverter()
-    {
+    public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 

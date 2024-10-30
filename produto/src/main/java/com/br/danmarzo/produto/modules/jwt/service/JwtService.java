@@ -20,17 +20,17 @@ public class JwtService {
     @Value("${app-config.secrets.api-secret}")
     private String apiSecret;
 
-    public void validateAuthorization(String token){
+    public void validateAuthorization(String token) {
         var accessToken = this.extractToken(token);
-        try{
-            var claims= Jwts
+        try {
+            var claims = Jwts
                     .parser()
                     .verifyWith(Keys.hmacShaKeyFor(this.apiSecret.getBytes()))
                     .build()
                     .parseSignedClaims(accessToken)
                     .getPayload();
             var user = JwtResponseDTO.getUser(claims);
-            if(isEmpty(user)){
+            if (isEmpty(user)) {
                 throw new AuthenticationException("The user is not valid");
             }
         } catch (Exception e) {

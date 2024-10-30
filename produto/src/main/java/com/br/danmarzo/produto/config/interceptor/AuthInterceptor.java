@@ -27,14 +27,14 @@ public class AuthInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler
     ) throws Exception {
-        if(request.getRequestURI().contains("swagger") || request.getRequestURI().contains("api-docs")){
+        if (request.getRequestURI().contains("swagger") || request.getRequestURI().contains("api-docs")) {
             return true;
         }
-        if(this.isOptions(request)){
+        if (this.isOptions(request)) {
             return true;
         }
 
-        if(Objects.isEmpty(request.getHeader(TRANSACTION_ID))){
+        if (Objects.isEmpty(request.getHeader(TRANSACTION_ID))) {
             throw new ValidationException("The transaction id header is required");
         }
         var authorization = request.getHeader(AUTHORIZATION);
@@ -43,7 +43,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean isOptions(HttpServletRequest request){
+    private boolean isOptions(HttpServletRequest request) {
         return HttpMethod.OPTIONS.name().equals(request.getMethod());
     }
 }

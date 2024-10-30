@@ -23,8 +23,8 @@ public class SupplierService {
     @Autowired
     private ProductService productService;
 
-    public List<SupplierResponseDTO> findByName(String name){
-        if (isEmpty(name)){
+    public List<SupplierResponseDTO> findByName(String name) {
+        if (isEmpty(name)) {
             throw new ValidationException("The supplier name must be informed");
         }
         return this
@@ -35,7 +35,7 @@ public class SupplierService {
                 .collect(Collectors.toList());
     }
 
-    public List<SupplierResponseDTO> findAll(){
+    public List<SupplierResponseDTO> findAll() {
         return this
                 .supplierRepository
                 .findAll()
@@ -44,23 +44,23 @@ public class SupplierService {
                 .collect(Collectors.toList());
     }
 
-    public SupplierResponseDTO findByIdResponse(Integer id){
+    public SupplierResponseDTO findByIdResponse(Integer id) {
         return SupplierResponseDTO.of(this.findById(id));
     }
 
-    public SupplierResponseDTO save(SupplierRequestDTO request){
+    public SupplierResponseDTO save(SupplierRequestDTO request) {
         this.validateSupplierNameInformed(request);
         var category = this.supplierRepository.save(SupplierEntity.of(request));
         return SupplierResponseDTO.of(category);
     }
 
-    public void validateSupplierNameInformed(SupplierRequestDTO requestDTO){
-        if (isEmpty(requestDTO.getName())){
+    public void validateSupplierNameInformed(SupplierRequestDTO requestDTO) {
+        if (isEmpty(requestDTO.getName())) {
             throw new ValidationException("The supplier name was not informed.");
         }
     }
 
-    public SupplierEntity findById(Integer id){
+    public SupplierEntity findById(Integer id) {
         this.validateInformedId(id);
         return this
                 .supplierRepository
@@ -68,11 +68,11 @@ public class SupplierService {
                 .orElseThrow(() -> new ValidationException("There's no supplier for the given ID."));
     }
 
-    public Boolean existsBySupplierId(Integer id){
+    public Boolean existsBySupplierId(Integer id) {
         return this.supplierRepository.existsById(id);
     }
 
-    public SuccessResponse delete(Integer id){
+    public SuccessResponse delete(Integer id) {
         this.validateInformedId(id);
         var existsProductsUsing = this.productService.existsBySupplierId(id);
         if (existsProductsUsing) {
@@ -82,7 +82,7 @@ public class SupplierService {
         return SuccessResponse.create("The supplier was deleted.");
     }
 
-    public SupplierResponseDTO update(SupplierRequestDTO request, Integer id){
+    public SupplierResponseDTO update(SupplierRequestDTO request, Integer id) {
         this.validateSupplierNameInformed(request);
         this.validateInformedId(id);
         var supplier = SupplierEntity.of(request);
@@ -91,8 +91,8 @@ public class SupplierService {
         return SupplierResponseDTO.of(supplier);
     }
 
-    private void validateInformedId(Integer id){
-        if(isEmpty(id)){
+    private void validateInformedId(Integer id) {
+        if (isEmpty(id)) {
             throw new ValidationException("ID was not provided");
         }
     }

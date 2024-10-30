@@ -7,9 +7,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class RequestUtil {
 
-    public static HttpServletRequest getCurrentRequest(){
+    public static HttpServletRequest getCurrentRequest() {
         try {
-            var req =((ServletRequestAttributes) RequestContextHolder
+            var req = ((ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes())
                     .getRequest();
             return req;

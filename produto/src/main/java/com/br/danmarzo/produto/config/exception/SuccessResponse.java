@@ -14,7 +14,7 @@ public class SuccessResponse {
     private Integer status;
     private String message;
 
-    public static SuccessResponse create(String message){
+    public static SuccessResponse create(String message) {
         return SuccessResponse
                 .builder()
                 .status(HttpStatus.OK.value())
@@ -22,7 +22,7 @@ public class SuccessResponse {
                 .build();
     }
 
-    public static SuccessResponse create(String message, HttpStatus httpStatus){
+    public static SuccessResponse create(String message, HttpStatus httpStatus) {
         return SuccessResponse
                 .builder()
                 .status(httpStatus.value())

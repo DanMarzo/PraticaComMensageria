@@ -15,7 +15,7 @@ public class JwtResponseDTO {
     private String email;
     private String name;
 
-    public static JwtResponseDTO getUser(Claims jwtClaims){
+    public static JwtResponseDTO getUser(Claims jwtClaims) {
         try {
             return JwtResponseDTO
                     .builder()
@@ -23,8 +23,7 @@ public class JwtResponseDTO {
                     .email((String) jwtClaims.get("email"))
                     .name((String) jwtClaims.get("name"))
                     .build();
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

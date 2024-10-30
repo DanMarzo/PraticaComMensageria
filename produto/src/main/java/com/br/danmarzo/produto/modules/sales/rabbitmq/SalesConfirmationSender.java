@@ -11,14 +11,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SalesConfirmationSender {
-    @Autowired private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Value("${app-config.rabbit.exchange}")
     private String productTopicExchange;
     @Value("${app-config.rabbit.routingKey.sales-confirmation}")
     private String salesConfirmationKey;
 
-    public void sendSalesConfirmationMessage(SalesConfirmationDTO message){
+    public void sendSalesConfirmationMessage(SalesConfirmationDTO message) {
         try {
             log.info("Sending message");
             log.info(new ObjectMapper().writeValueAsString(message));

@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerGlobal {
 
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> handleValidationException(ValidationException validationException){
+    public ResponseEntity<?> handleValidationException(ValidationException validationException) {
         var details = new ExceptionDetails();
         details.setStatus(HttpStatus.BAD_REQUEST.value());
         details.setMessage(validationException.getMessage());
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
-   }
+    }
+
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handleAuthorizationException(AuthenticationException authenticationException){
+    public ResponseEntity<?> handleAuthorizationException(AuthenticationException authenticationException) {
         var details = new ExceptionDetails();
         details.setStatus(HttpStatus.UNAUTHORIZED.value());
         details.setMessage(authenticationException.getMessage());

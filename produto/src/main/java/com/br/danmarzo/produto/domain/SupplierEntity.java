@@ -18,7 +18,7 @@ import org.springframework.beans.BeanUtils;
 @SequenceGenerator(allocationSize = 1, initialValue = 1, name = "suppliers_seq_gen", sequenceName = "suppliers_seq")
 public class SupplierEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "suppliers_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "suppliers_seq_gen")
     private Integer id;
 
     @Column(name = "name", nullable = false)

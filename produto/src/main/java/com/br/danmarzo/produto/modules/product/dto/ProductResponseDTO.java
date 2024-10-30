@@ -26,7 +26,7 @@ public class ProductResponseDTO {
     private SupplierResponseDTO supplier;
     private CategoryResponseDTO category;
 
-    public static ProductResponseDTO of(ProductEntity product){
+    public static ProductResponseDTO of(ProductEntity product) {
         return ProductResponseDTO
                 .builder()
                 .id(product.getId())

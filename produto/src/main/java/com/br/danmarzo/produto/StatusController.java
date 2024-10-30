@@ -10,7 +10,7 @@ import java.util.HashMap;
 @RestController("/")
 public class StatusController {
     @GetMapping("status")
-    public ResponseEntity<HashMap<String, Object>> getApiStatus(){
+    public ResponseEntity<HashMap<String, Object>> getApiStatus() {
         var response = new HashMap<String, Object>();
         response.put("service", "ProdutoAPI");
         response.put("httpStatus", HttpStatus.OK.value());

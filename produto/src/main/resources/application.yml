@@ -20,7 +20,7 @@ spring:
     maxActive: 3
   jpa:
     hibernate:
-#      Toda vez que aplicacao inicializar ele ira apagar o banco e criar novamente
+      #Toda vez que aplicacao inicializar ele ira apagar o banco e criar novamente
       ddl-auto: create-drop
       format_sql: true
     show_sql: true

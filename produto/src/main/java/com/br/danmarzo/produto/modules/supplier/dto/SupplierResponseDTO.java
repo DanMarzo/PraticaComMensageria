@@ -12,7 +12,7 @@ public class SupplierResponseDTO {
     private String name;
 
 
-    public static SupplierResponseDTO of(SupplierEntity supplier){
+    public static SupplierResponseDTO of(SupplierEntity supplier) {
         var response = new SupplierResponseDTO();
         BeanUtils.copyProperties(supplier, response);
         return response;

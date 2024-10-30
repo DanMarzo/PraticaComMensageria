@@ -18,6 +18,4 @@ public class FeingClientInterceptor implements RequestInterceptor {
         template.header(Authorization, token);
         template.header(TRANSACTION_ID, httpRequest.getHeader(TRANSACTION_ID));
     }
-
-
 }

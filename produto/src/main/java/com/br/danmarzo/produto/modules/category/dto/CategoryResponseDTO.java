@@ -11,7 +11,7 @@ public class CategoryResponseDTO {
     private Integer id;
     private String description;
 
-    public static CategoryResponseDTO of(CategoryEntity category){
+    public static CategoryResponseDTO of(CategoryEntity category) {
         var response = new CategoryResponseDTO();
         BeanUtils.copyProperties(category, response);
         return response;

@@ -22,8 +22,8 @@ public class CategoryService {
     @Autowired
     private ProductService productService;
 
-    public List<CategoryResponseDTO> findByDescription(String description){
-        if (isEmpty(description)){
+    public List<CategoryResponseDTO> findByDescription(String description) {
+        if (isEmpty(description)) {
             throw new ValidationException("The category description must be informed");
         }
         return this
@@ -34,7 +34,7 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public List<CategoryResponseDTO> findAll(){
+    public List<CategoryResponseDTO> findAll() {
         return this
                 .categoryRepository
                 .findAll()
@@ -43,26 +43,26 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryResponseDTO findByIdResponse(Integer id){
+    public CategoryResponseDTO findByIdResponse(Integer id) {
         return CategoryResponseDTO.of(this.findById(id));
     }
 
-    public CategoryResponseDTO save(CategoryRequestDTO request){
+    public CategoryResponseDTO save(CategoryRequestDTO request) {
         this.validateCategoryNameInformed(request);
         var category = this.categoryRepository.save(CategoryEntity.of(request));
         return CategoryResponseDTO.of(category);
     }
 
-    public CategoryResponseDTO update(CategoryRequestDTO request, Integer id){
+    public CategoryResponseDTO update(CategoryRequestDTO request, Integer id) {
         this.validateInformedId(id);
         this.validateCategoryNameInformed(request);
         var category = CategoryEntity.of(request);
         category.setId(id);
-        this.categoryRepository.save( category);
+        this.categoryRepository.save(category);
         return CategoryResponseDTO.of(category);
     }
 
-    public CategoryEntity findById(Integer id){
+    public CategoryEntity findById(Integer id) {
         this.validateInformedId(id);
         return this
                 .categoryRepository
@@ -70,11 +70,11 @@ public class CategoryService {
                 .orElseThrow(() -> new ValidationException("There's no category for the given ID."));
     }
 
-    public Boolean existsByCategoryId(Integer id){
+    public Boolean existsByCategoryId(Integer id) {
         return this.categoryRepository.existsById(id);
     }
 
-    public SuccessResponse delete(Integer id){
+    public SuccessResponse delete(Integer id) {
         this.validateInformedId(id);
         var existsProductsUsing = this.productService.existsByCategoryId(id);
         if (existsProductsUsing) {
@@ -84,14 +84,14 @@ public class CategoryService {
         return SuccessResponse.create("The category was deleted.");
     }
 
-    private void validateInformedId(Integer id){
-        if(isEmpty(id)){
+    private void validateInformedId(Integer id) {
+        if (isEmpty(id)) {
             throw new ValidationException("The category id must be informed");
         }
     }
 
-    private void validateCategoryNameInformed(CategoryRequestDTO requestDTO){
-        if (isEmpty(requestDTO.getDescription())){
+    private void validateCategoryNameInformed(CategoryRequestDTO requestDTO) {
+        if (isEmpty(requestDTO.getDescription())) {
             throw new ValidationException("The category description was not informed.");
         }
     }

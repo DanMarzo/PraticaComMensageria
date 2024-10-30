@@ -148,11 +148,11 @@ public class ProductService {
             }
             this.productRepository.saveAll(productsUpdate);
             log.info("Message approved");
-            var approvedSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.APPROVED,product.getTransactionId());
+            var approvedSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.APPROVED, product.getTransactionId());
             this.salesConfirmationSender.sendSalesConfirmationMessage(approvedSend);
         } catch (Exception e) {
             log.error("Error while trying to update stock for message with error.");
-            var rejectSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.REJECT,product.getTransactionId());
+            var rejectSend = new SalesConfirmationDTO(product.getSalesId(), SalesStatusEnum.REJECT, product.getTransactionId());
             this.salesConfirmationSender.sendSalesConfirmationMessage(rejectSend);
         }
     }

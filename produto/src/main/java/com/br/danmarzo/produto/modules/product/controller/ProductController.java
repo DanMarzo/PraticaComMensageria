@@ -25,36 +25,42 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("registrar")
-    public ProductResponseDTO save(@RequestBody ProductRequestDTO request){
+    public ProductResponseDTO save(@RequestBody ProductRequestDTO request) {
         return this.productService.save(request);
     }
+
     @PutMapping("update")
-    public ProductResponseDTO save(@RequestParam() Integer id, @RequestBody ProductRequestDTO request){
+    public ProductResponseDTO save(@RequestParam() Integer id, @RequestBody ProductRequestDTO request) {
         return this.productService.update(request, id);
     }
 
     @GetMapping("findAll")
-    public List<ProductResponseDTO> findAll(){
+    public List<ProductResponseDTO> findAll() {
         return this.productService.findAll();
     }
+
     @GetMapping("findByName")
-    public List<ProductResponseDTO> findByName(@RequestParam() String name){
+    public List<ProductResponseDTO> findByName(@RequestParam() String name) {
         return this.productService.findByName(name);
     }
+
     @GetMapping("findById")
-    public ProductResponseDTO findById(@RequestParam() Integer id){
+    public ProductResponseDTO findById(@RequestParam() Integer id) {
         return this.productService.findByIdResponse(id);
     }
+
     @GetMapping("findBySupplierId")
-    public List<ProductResponseDTO> findBySupplierId(@RequestParam() Integer id){
+    public List<ProductResponseDTO> findBySupplierId(@RequestParam() Integer id) {
         return this.productService.findBySupplierId(id);
     }
+
     @GetMapping("findByCategoryId")
-    public List<ProductResponseDTO> findByCategoryId(@RequestParam() Integer id){
+    public List<ProductResponseDTO> findByCategoryId(@RequestParam() Integer id) {
         return this.productService.findByCategoryId(id);
     }
+
     @DeleteMapping("delete")
-    public SuccessResponse delete(@RequestParam() Integer id){
+    public SuccessResponse delete(@RequestParam() Integer id) {
         return this.productService.delete(id);
     }
 
@@ -65,7 +71,7 @@ public class ProductController {
                 new ObjectMapper().writeValueAsString(checkStockRequest),
                 currentRequest.getHeader("transactionid"),
                 currentRequest.getHeader("serviceid")
-                );
+        );
         SuccessResponse response = this.productService.CheckStock(checkStockRequest);
         log.info("Response to Post check-stock with data: {} | [TransactionId: {} | ServiceId: {}]",
                 new ObjectMapper().writeValueAsString(response),
@@ -74,8 +80,9 @@ public class ProductController {
         );
         return response;
     }
+
     @GetMapping("{id}/sales")
-    public ProductSalesResponseDTO findProductSales(@PathVariable Integer id){
+    public ProductSalesResponseDTO findProductSales(@PathVariable Integer id) {
         return productService.findProductSales(id);
     }
 }

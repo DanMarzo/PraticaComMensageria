@@ -42,16 +42,16 @@ public class ProductEntity {
     private LocalDateTime createAt;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.createAt = LocalDateTime.now();
     }
 
-    public void updateStock(Integer quantity){
+    public void updateStock(Integer quantity) {
         this.quantityAvailable = this.quantityAvailable - quantity;
     }
 
 
-    public static ProductEntity of(ProductRequestDTO request, SupplierEntity supplier, CategoryEntity category){
+    public static ProductEntity of(ProductRequestDTO request, SupplierEntity supplier, CategoryEntity category) {
         return ProductEntity
                 .builder()
                 .name(request.getName())

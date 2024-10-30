@@ -25,9 +25,9 @@ public class CategoryEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    public  static  CategoryEntity of(CategoryRequestDTO request){
+    public static CategoryEntity of(CategoryRequestDTO request) {
         var category = new CategoryEntity();
         BeanUtils.copyProperties(request, category);
-        return  category;
+        return category;
     }
 }
